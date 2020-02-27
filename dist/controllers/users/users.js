@@ -273,7 +273,7 @@ exports.items = function (token, id) { return __awaiter(void 0, void 0, void 0, 
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Select * from items where id=", ""], ["Select * from items where id=", ""])), id))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Select * from items"], ["Select * from items"]))))];
             case 2:
                 item = _a.sent();
                 console.log(item);

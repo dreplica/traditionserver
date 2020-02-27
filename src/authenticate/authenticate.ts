@@ -9,7 +9,7 @@ const jwt = jsonwebtoken;
 const authenticate = async (req:(user & Request) , res:Response, next:NextFunction) => {
     
     const token = req.headers['authorization'] as string;
-   
+    console.log(req.headers['authorization'])
     const auth = token.split(" ")[1] as string;
     const verify = await jwt.verify(auth,<string>process.env?.JWTTOKEN)
     if (verify) {

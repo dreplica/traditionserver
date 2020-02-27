@@ -108,22 +108,13 @@ router.post('/upload', function (req, res) { return __awaiter(void 0, void 0, vo
             })];
     });
 }); });
-router.get('/profile', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var person;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                console.log("here its user", (_a = req) === null || _a === void 0 ? void 0 : _a.user);
-                return [4 /*yield*/, users_1.profile((_b = req) === null || _b === void 0 ? void 0 : _b.user)];
-            case 1:
-                person = _c.sent();
-                return [2 /*return*/, person.payload ?
-                        res.status(200).json(person) :
-                        res.status(404).json(person)];
-        }
-    });
-}); });
+// router.get('/profile',authenticate, async (req:(user & Request), res:Response) => {
+//     console.log("here its user",req?.user as string)
+//     const person = await profile(req?.user as string)
+//     return person.payload ?
+//         res.status(200).json(person) :
+//         res.status(404).json(person)
+//  })
 // router.get('cart', cart)
 router.get('/history', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
@@ -139,34 +130,27 @@ router.get('/history', authenticate_1.default, function (req, res) { return __aw
         }
     });
 }); });
-router.get('/items/:id', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/items', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a, _b, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
+    var _a, _b, _c, _d;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
             case 0: return [4 /*yield*/, users_1.items((_a = req) === null || _a === void 0 ? void 0 : _a.user, (_b = req.params) === null || _b === void 0 ? void 0 : _b.id)];
             case 1:
-                person = _d.sent();
+                person = _e.sent();
                 return [2 /*return*/, ((_c = person) === null || _c === void 0 ? void 0 : _c.payload) ?
-                        res.status(200).json(person) :
+                        res.status(200).json((_d = person) === null || _d === void 0 ? void 0 : _d.payload) :
                         res.status(404).json(person)];
         }
     });
 }); });
-router.get('/category/:cat', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var person;
-    var _a, _b, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
-            case 0: return [4 /*yield*/, users_1.category((_a = req) === null || _a === void 0 ? void 0 : _a.user, (_b = req.params) === null || _b === void 0 ? void 0 : _b.cat)];
-            case 1:
-                person = _d.sent();
-                return [2 /*return*/, ((_c = person) === null || _c === void 0 ? void 0 : _c.payload) ?
-                        res.status(200).json(person) :
-                        res.status(404).json(person)];
-        }
-    });
-}); });
+// router.get('/category/:cat', authenticate, async (req: (user & Request), res: Response) => {
+// //onclicking it would take you to that particular category and its items
+// const person = await category(req?.user as string,req.params?.cat)
+//     return person?.payload ?
+//         res.status(200).json(person) :
+//         res.status(404).json(person)
+// })
 router.post('/category', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
     var _a, _b;

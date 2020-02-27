@@ -38,7 +38,6 @@ app.disable('x-powered-by');
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(logger);
-app.use(function () { return console.log(__dirname + ""); });
 app.use("/", userRoutes_1.default);
 app.use(function (_req, _res, next) {
     next(http_errors_1.default(404));

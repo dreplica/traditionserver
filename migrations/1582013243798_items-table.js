@@ -11,7 +11,7 @@ exports.up = pgm => {
             default: pgm.func('uuid_generate_v4()'),
             comment: 'this is the id field',
         },
-        name: {
+        itemname: {
             type: 'VARCHAR(100)',
             notNull: true,
         },

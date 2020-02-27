@@ -39,7 +39,7 @@ app.disable('x-powered-by');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(logger)
-app.use(()=>console.log(__dirname+""))
+
 app.use("/", userControl)
 
 app.use(function(_req, _res, next) {

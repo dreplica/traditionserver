@@ -56,13 +56,13 @@ router.post('/upload',async (req:Request, res:Response) => {
         return res.status(200).send("thank you")
     })
 })
-router.get('/profile',authenticate, async (req:(user & Request), res:Response) => {
-    console.log("here its user",req?.user as string)
-    const person = await profile(req?.user as string)
-    return person.payload ?
-        res.status(200).json(person) :
-        res.status(404).json(person)
- })
+// router.get('/profile',authenticate, async (req:(user & Request), res:Response) => {
+//     console.log("here its user",req?.user as string)
+//     const person = await profile(req?.user as string)
+//     return person.payload ?
+//         res.status(200).json(person) :
+//         res.status(404).json(person)
+//  })
 // router.get('cart', cart)
 router.get('/history', authenticate, async (req: (user & Request), res: Response) => {
     const person = await history(req?.user as string)
@@ -70,21 +70,20 @@ router.get('/history', authenticate, async (req: (user & Request), res: Response
         res.status(200).json(person) :
         res.status(404).json(person)
 })
-router.get('/items/:id',authenticate, async (req: (user & Request), res: Response) => {
+router.get('/items',authenticate, async (req: (user & Request), res: Response) => {
 const person = await items(req?.user as string,req.params?.id)
     return person?.payload ?
-        res.status(200).json(person) :
+        res.status(200).json(person?.payload) :
         res.status(404).json(person)
 })
 
-
-router.get('/category/:cat', authenticate, async (req: (user & Request), res: Response) => {
-//onclicking it would take you to that particular category and its items
-const person = await category(req?.user as string,req.params?.cat)
-    return person?.payload ?
-        res.status(200).json(person) :
-        res.status(404).json(person)
-})
+// router.get('/category/:cat', authenticate, async (req: (user & Request), res: Response) => {
+// //onclicking it would take you to that particular category and its items
+// const person = await category(req?.user as string,req.params?.cat)
+//     return person?.payload ?
+//         res.status(200).json(person) :
+//         res.status(404).json(person)
+// })
 router.post('/category', authenticate, async (req: (user & Request), res: Response) => {
 const person = await addcategory(req?.user as string,req.body)
     return person?.payload ?

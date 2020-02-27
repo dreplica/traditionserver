@@ -161,7 +161,7 @@ export const items = async (token: string, id: string) => {
         return {error:"network error, please try again"}
     }
     try {
-        const item = await db.query(sql`Select * from items where id=${id}`)
+        const item = await db.query(sql`Select * from items`)
         console.log(item);
         return {payload:item}
     } catch (error) {
