@@ -303,7 +303,7 @@ exports.additems = function (token, args) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Select id from users where email=", ""], ["Select id from users where email=", ""])), token))];
             case 2:
                 userId = _a.sent();
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"])), args.name, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image, now, now))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"])), args.itemname, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image, now, now))];
             case 3:
                 item = _a.sent();
                 return [2 /*return*/, { payload: item }];

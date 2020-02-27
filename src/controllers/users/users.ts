@@ -181,7 +181,7 @@ export const additems = async (token: string, args: obj) => {
         const userId:Array<obj> = await db.query(sql`Select id from users where email=${token}`) as any
 
         const item = await db.query(sql`Insert Into items Values (uuid_generate_v4(),
-            ${args.name},${args.type},${args.category},${args.price},${args.description},
+            ${args.itemname},${args.type},${args.category},${args.price},${args.description},
             ${args.quantity},${userId[0].id},${args.image},
             ${now},${now}) returning *`)
         return {payload:item}
