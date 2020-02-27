@@ -70,8 +70,8 @@ router.get('/history', authenticate, async (req: (user & Request), res: Response
         res.status(200).json(person) :
         res.status(404).json(person)
 })
-router.get('/items',authenticate, async (req: (user & Request), res: Response) => {
-const person = await items(req?.user as string,req.params?.id)
+router.get('/items/:category/:type',authenticate, async (req: (user & Request), res: Response) => {
+const person = await items(req?.user as string,req.params)
     return person?.payload ?
         res.status(200).json(person?.payload) :
         res.status(404).json(person)
@@ -91,6 +91,7 @@ const person = await addcategory(req?.user as string,req.body)
         res.status(404).json(person)
 })
 router.post('/items',authenticate, async (req: (user & Request), res: Response) => {
+    console.log(req.body)
 const person = await additems(req?.user as string,req.body)
     return person?.payload ?
         res.status(200).json(person) :
