@@ -9,6 +9,9 @@
 //     removeItem,
 // } from '../controllers/admin/admin'
 
+// the site is where people sell just traditional clothes
+
+
 // const router = express.Router();
 
 // router.get('home',home)

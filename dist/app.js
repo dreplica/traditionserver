@@ -9,7 +9,17 @@ var cors_1 = __importDefault(require("cors"));
 var userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 var winston_1 = __importDefault(require("winston"));
 var express_winston_1 = __importDefault(require("express-winston"));
-var authenticate_1 = __importDefault(require("./authenticate/authenticate"));
+var multer_1 = __importDefault(require("multer"));
+// the site is where people sell just traditional made things
+var storage = multer_1.default.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/images');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+exports.upload = multer_1.default({ storage: storage }).single('file');
 var app = express_1.default();
 var logger = express_winston_1.default.logger({
     transports: [new winston_1.default.transports.Console()],
@@ -22,13 +32,14 @@ var logger = express_winston_1.default.logger({
         return false;
     }
 });
+app.use(express_1.default.static('public'));
 app.use(cors_1.default());
 app.disable('x-powered-by');
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(logger);
-app.use("/", authenticate_1.default, userRoutes_1.default);
-// app.use("/admin",adminControl)
+app.use(function () { return console.log(__dirname + ""); });
+app.use("/", userRoutes_1.default);
 app.use(function (_req, _res, next) {
     next(http_errors_1.default(404));
 });

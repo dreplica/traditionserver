@@ -3,7 +3,7 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-    pgm.createTable('users', {
+    pgm.createTable('seller', {
         id: {
             type: 'uuid',
             notNull: true,
@@ -11,33 +11,20 @@ exports.up = pgm => {
             default: pgm.func('uuid_generate_v4()'),
             comment: 'this is the id field',
         },
+        userid: {
+            type: 'uuid',
+            notNull: true,
+            references: 'users(id)',
+            ondelete:'cascade',
+            onupdate:'cascade',
+            comment:"uses email as key"
+        },
         username: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-        },
-        firstname: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-        },
-        lastname: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-        },
-        email: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-            unique:true,
-        },
-        password: {
             type: 'VARCHAR(100)',
             notNull: true,
         },
         phone: {
             type: 'VARCHAR(100)',
-            notNull: true,
-        },
-        isadmin: {
-            type: 'VARCHAR(10)',
             notNull: true,
         },
         created: {
@@ -52,5 +39,5 @@ exports.up = pgm => {
 };
 
 exports.down = pgm => {
-    pgm.dropTable('users')
+    pgm.dropTable('seller')
 };

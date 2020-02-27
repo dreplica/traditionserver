@@ -48,79 +48,86 @@ var dotenv_1 = __importDefault(require("dotenv"));
 var pg_model_1 = require("../../models/pg-model");
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 dotenv_1.default.config();
-// export const home = async (id: string) => {
-// 	const _id = id;
-// };
+exports.home = function (token) { return __awaiter(void 0, void 0, void 0, function () {
+    var items_1;
+    return __generator(this, function (_a) {
+        if (!token) {
+            console.log("no token");
+            return [2 /*return*/, { error: "network error, please try again" }];
+        }
+        try {
+            items_1 = pg_model_1.db.query(pg_model_1.sql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select * From items"], ["Select * From items"]))));
+            return [2 /*return*/, { payload: items_1 }];
+        }
+        catch (error) {
+            console.log(error.message);
+            return [2 /*return*/, { error: "netork error, please try again" }];
+        }
+        return [2 /*return*/];
+    });
+}); };
 exports.signin = function (args) { return __awaiter(void 0, void 0, void 0, function () {
-    var body, user, compare, _a, _b, token, error_1;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var body, user, compare, token, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 body = args;
-                // const {error} = register.validate(body)
-                console.log("entered");
-                _c.label = 1;
+                _a.label = 1;
             case 1:
-                _c.trys.push([1, 5, , 6]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select password from users where email=", ""], ["Select password from users where email=", ""])), body.email))];
+                _a.trys.push([1, 4, , 5]);
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select password,isadmin from users where email=", ""], ["Select password,isadmin from users where email=", ""])), body.email))];
             case 2:
-                user = _c.sent();
-                console.log("jaming", user);
+                user = _a.sent();
                 return [4 /*yield*/, bcryptjs_1.default.compare(body.password, user[0].password)];
             case 3:
-                compare = _c.sent();
-                _b = (_a = console).log;
-                return [4 /*yield*/, compare];
-            case 4:
-                _b.apply(_a, [_c.sent()]);
+                compare = _a.sent();
                 if (!compare || user.length === 0) {
-                    return [2 /*return*/, "mismatch in password and email"];
+                    return [2 /*return*/, { error: "did you mispell password or email?" }];
                 }
                 token = jsonwebtoken_1.default.sign({ token: body.email }, process.env.JWTTOKEN);
-                return [2 /*return*/, { token: token }];
-            case 5:
-                error_1 = _c.sent();
+                return [2 /*return*/, { token: token, admin: user[0].isadmin }];
+            case 4:
+                error_1 = _a.sent();
                 console.log("error");
                 //after am done, if any error occurs, send mismatch in usname or pass
-                return [2 /*return*/, error_1.message];
-            case 6: return [2 /*return*/];
+                return [2 /*return*/, { error: "did you forget your email?" }];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
 exports.register = function (args) { return __awaiter(void 0, void 0, void 0, function () {
-    var body, admin, Created, Updated, checkUser, salt, hash, token, error_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var body, Created, Updated, checkUser, salt, hash, token, error_2;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                console.log("enter");
                 body = args;
-                console.log(body);
-                admin = "false";
-                _a.label = 1;
+                _b.label = 1;
             case 1:
-                _a.trys.push([1, 5, , 6]);
+                _b.trys.push([1, 5, , 6]);
                 Created = new Date().toISOString();
                 Updated = new Date().toISOString();
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select email from users where email = ", ""], ["Select email from users where email = ", ""])), body.email))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select email from users where email = ", ""], ["Select email from users where email = ", ""])), body.email))];
             case 2:
-                checkUser = _a.sent();
+                checkUser = _b.sent();
+                console.log(checkUser);
                 if (checkUser.length > 0) {
-                    return [2 /*return*/, "sorry this account already exist"];
+                    return [2 /*return*/, { error: "sorry this account already exist!" }];
                 }
                 return [4 /*yield*/, bcryptjs_1.default.genSalt(10)];
             case 3:
-                salt = _a.sent();
+                salt = _b.sent();
                 return [4 /*yield*/, bcryptjs_1.default.hash(body.password, salt)];
             case 4:
-                hash = _a.sent();
-                pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ")"], ["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ")"])), body.username, body.firstname, body.lastname, body.email, hash, body.phone, admin, Created, Updated));
+                hash = _b.sent();
+                pg_model_1.db.query(pg_model_1.sql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ")"], ["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ")"])), body.username, body.firstname, body.lastname, body.email, hash, body.phone, (_a = body.admin, (_a !== null && _a !== void 0 ? _a : true)), Created, Updated));
                 token = jsonwebtoken_1.default.sign({ token: body.email }, process.env.JWTTOKEN);
-                return [2 /*return*/, { token: token }
+                return [2 /*return*/, { token: token, admin: body.admin }
                     //after registering, send a mail to user, requesting approval
                 ];
             case 5:
-                error_2 = _a.sent();
-                return [2 /*return*/, error_2.message];
+                error_2 = _b.sent();
+                return [2 /*return*/, { error: error_2.message }];
             case 6: return [2 /*return*/];
         }
     });
@@ -130,6 +137,7 @@ exports.profile = function (token) { return __awaiter(void 0, void 0, void 0, fu
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                console.log("entered");
                 if (!token) {
                     return [2 /*return*/, { error: "network error, please try again" }];
                 }
@@ -137,7 +145,7 @@ exports.profile = function (token) { return __awaiter(void 0, void 0, void 0, fu
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Select * from users where email = ", " Returning *"], ["Select * from users where email = ", " Returning *"])), token))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Select * from users where email = ", ""], ["Select * from users where email = ", ""])), token))];
             case 2:
                 user = _a.sent();
                 return [2 /*return*/, { payload: user }];
@@ -149,15 +157,162 @@ exports.profile = function (token) { return __awaiter(void 0, void 0, void 0, fu
         }
     });
 }); };
-exports.cart = function (token) { return __awaiter(void 0, void 0, void 0, function () {
+exports.history = function (token) { return __awaiter(void 0, void 0, void 0, function () {
+    var hist, error_4;
     return __generator(this, function (_a) {
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                if (!token) {
+                    return [2 /*return*/, { error: "network error, please try again" }];
+                }
+                ;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Select items.item, items.price, \n                                        history.date_bought, items.supplier\n                                        From items Inner Join history on\n                                        items.id = history.items_id\n                                        Where history.user_id=", ""], ["Select items.item, items.price, \n                                        history.date_bought, items.supplier\n                                        From items Inner Join history on\n                                        items.id = history.items_id\n                                        Where history.user_id=", ""])), token))];
+            case 2:
+                hist = _a.sent();
+                return [2 /*return*/, { payload: hist }];
+            case 3:
+                error_4 = _a.sent();
+                return [2 /*return*/, { error: error_4.message }];
+            case 4: return [2 /*return*/];
+        }
     });
 }); };
-exports.history = function (req, res) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-    return [2 /*return*/];
-}); }); };
-exports.items = function (req, res) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-    return [2 /*return*/];
-}); }); };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+//add history happens when the user makes a purchase
+exports.addhistory = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
+    var now, add, error_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!token) {
+                    return [2 /*return*/, { error: "network error, please try again" }];
+                }
+                ;
+                now = new Date().toISOString();
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_7 || (templateObject_7 = __makeTemplateObject(["insert into history Values (uuid_generate_v4(),\n                    ", ",", ",", ",", ",\n                    ", ",", ",) Returning *"], ["insert into history Values (uuid_generate_v4(),\n                    ", ",", ",", ",", ",\n                    ", ",", ",) Returning *"])), args.itemid, args.userid, args.bougth, args.quantity, args.delivered, now))];
+            case 2:
+                add = _a.sent();
+                return [2 /*return*/, { payload: add }];
+            case 3:
+                error_5 = _a.sent();
+                console.log(error_5.messsage);
+                return [2 /*return*/, { error: error_5.message }];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.category = function (token, cat) { return __awaiter(void 0, void 0, void 0, function () {
+    var categories, error_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!token) {
+                    return [2 /*return*/, { error: "network error, please try again" }];
+                }
+                ;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_8 || (templateObject_8 = __makeTemplateObject(["\n        Select category from items\n        "], ["\n        Select category from items\n        "]))))];
+            case 2:
+                categories = _a.sent();
+                return [2 /*return*/, { payload: categories }];
+            case 3:
+                error_6 = _a.sent();
+                return [2 /*return*/, { error: error_6.message }];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+//add category haapens when the admin is about to add category
+exports.addcategory = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
+    var now, update, error_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log("hello");
+                if (!token) {
+                    return [2 /*return*/, { error: "network error, please try again" }];
+                }
+                ;
+                now = new Date().toISOString();
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                console.log('entering');
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Insert into category values(uuid_generate_v4(),\n                        ", ",", ",\n                        ", ",", ") Returning *"], ["Insert into category values(uuid_generate_v4(),\n                        ", ",", ",\n                        ", ",", ") Returning *"])), args.categoryname, args.categoryimage, now, now))];
+            case 2:
+                update = _a.sent();
+                return [2 /*return*/, { payload: update }];
+            case 3:
+                error_7 = _a.sent();
+                console.log(error_7.message);
+                return [2 /*return*/, { error: error_7.message }];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+//front end talk
+//for search, create a small component below the search icons, it would fetch data
+//and rerender itself on every search input
+//items table is the key here,
+//e suppose get everything from 
+exports.items = function (token, id) { return __awaiter(void 0, void 0, void 0, function () {
+    var item, error_8;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!token) {
+                    return [2 /*return*/, { error: "network error, please try again" }];
+                }
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Select * from items where id=", ""], ["Select * from items where id=", ""])), id))];
+            case 2:
+                item = _a.sent();
+                console.log(item);
+                return [2 /*return*/, { payload: item }];
+            case 3:
+                error_8 = _a.sent();
+                console.log(error_8.message);
+                return [2 /*return*/, { error: error_8.message }];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+//happens when the dmin adds an item
+exports.additems = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
+    var now, userId, item, error_9;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!token) {
+                    return [2 /*return*/, { error: "network error, please try again" }];
+                }
+                now = new Date().toISOString();
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 4, , 5]);
+                console.log("started adding");
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Select id from users where email=", ""], ["Select id from users where email=", ""])), token))];
+            case 2:
+                userId = _a.sent();
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"])), args.name, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image, now, now))];
+            case 3:
+                item = _a.sent();
+                return [2 /*return*/, { payload: item }];
+            case 4:
+                error_9 = _a.sent();
+                console.log(error_9.message);
+                return [2 /*return*/, { error: error_9.message }];
+            case 5: return [2 /*return*/];
+        }
+    });
+}); };
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;

@@ -10,6 +10,7 @@
 //     removeItem,
 // } from '../controllers/admin/admin'
 Object.defineProperty(exports, "__esModule", { value: true });
+// the site is where people sell just traditional clothes
 // const router = express.Router();
 // router.get('home',home)
 // router.get('profile',profile)

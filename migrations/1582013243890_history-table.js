@@ -3,54 +3,49 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-    pgm.createTable('users', {
+    pgm.createTable('history', {
         id: {
             type: 'uuid',
             notNull: true,
             primaryKey: true,
             default: pgm.func('uuid_generate_v4()'),
-            comment: 'this is the id field',
+            comment: 'this is the id field,can also be used as track-id',
         },
-        username: {
+        itemid: {
+            type: 'uuid',
+            notNull: true,
+            references: 'items',
+            onDelete:'cascade',
+            onUpdate:'cascade',
+            comment:"its the user id thats the id"
+        },
+        userid: {
+            type: 'uuid',
+            notNull: true,
+            references: 'users',
+            onDelete:'cascade',
+            onUpdate:'cascade',
+            comment:"its the user id thats the id"
+        },
+        bought: {
             type: 'VARCHAR(100)',
             notNull: true,
         },
-        firstname: {
+        quantity: {
             type: 'VARCHAR(100)',
             notNull: true,
         },
-        lastname: {
+        delivered: {
             type: 'VARCHAR(100)',
-            notNull: true,
-        },
-        email: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-            unique:true,
-        },
-        password: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-        },
-        phone: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-        },
-        isadmin: {
-            type: 'VARCHAR(10)',
             notNull: true,
         },
         created: {
             type: 'VARCHAR(100)',
             notNull: true,
-        },
-        updated: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-        },
+        }
     })
 };
 
 exports.down = pgm => {
-    pgm.dropTable('users')
+    pgm.dropTable('history')
 };

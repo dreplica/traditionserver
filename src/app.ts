@@ -4,8 +4,21 @@ import cors from 'cors'
 import userControl from './routes/userRoutes'
 import adminControl from './routes/adminRoutes'
 import winston from 'winston';
+import path from 'path'
+
 import expressWinston from 'express-winston';
-import authenticate from './authenticate/authenticate';
+import multer from 'multer'
+
+// the site is where people sell just traditional made things
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+    cb(null, 'public/images')
+  },
+  filename: function (req, file, cb) {
+    cb(null,file.originalname )
+  }
+})
+export const upload = multer({ storage: storage }).single('file')
 
 const app = express();
 const logger = expressWinston.logger({
@@ -20,15 +33,14 @@ const logger = expressWinston.logger({
     }
 });
 
-app.use(cors())
+app.use(express.static('public'))
+app.use(cors()) 
 app.disable('x-powered-by'); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(logger)
-
-app.use("/",authenticate, userControl)
-// app.use("/admin",adminControl)
-
+app.use(()=>console.log(__dirname+""))
+app.use("/", userControl)
 
 app.use(function(_req, _res, next) {
 	next(createError(404));

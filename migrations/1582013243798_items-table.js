@@ -3,7 +3,7 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-    pgm.createTable('users', {
+    pgm.createTable('items', {
         id: {
             type: 'uuid',
             notNull: true,
@@ -11,34 +11,44 @@ exports.up = pgm => {
             default: pgm.func('uuid_generate_v4()'),
             comment: 'this is the id field',
         },
-        username: {
+        name: {
             type: 'VARCHAR(100)',
             notNull: true,
         },
-        firstname: {
+        type: {
             type: 'VARCHAR(100)',
             notNull: true,
         },
-        lastname: {
+        category: {
+            type: 'TEXT',
+            notNull: true,
+            // references: 'category',
+            // referenceskey:'id',
+            // onDelete:'Cascade',
+            // onUpdate:'Cascade'
+        },
+        price: {
             type: 'VARCHAR(100)',
             notNull: true,
         },
-        email: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-            unique:true,
-        },
-        password: {
+        description: {
             type: 'VARCHAR(100)',
             notNull: true,
         },
-        phone: {
-            type: 'VARCHAR(100)',
+        quantity: {
+            type: 'INT',
             notNull: true,
         },
-        isadmin: {
-            type: 'VARCHAR(10)',
+        sellerid: {
+            type: 'uuid',
             notNull: true,
+            references: 'users',
+            ondelete:'cascade',
+            onupdate:'cascade'
+        },
+        image: {
+            type: 'TEXT',
+            notNull: false,
         },
         created: {
             type: 'VARCHAR(100)',
@@ -52,5 +62,5 @@ exports.up = pgm => {
 };
 
 exports.down = pgm => {
-    pgm.dropTable('users')
+    pgm.dropTable('items')
 };
