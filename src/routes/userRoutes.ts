@@ -5,11 +5,10 @@ import {
     home,
     register,
     signin,
-    profile,
+    Search
+    itemstype,
     history,
     items,
-    category,
-    addcategory,
     addhistory,
     additems
 } from '../controllers/users/users'
@@ -48,8 +47,7 @@ router.post('/signin', async (req:Request, res:Response) => {
 router.post('/upload',async (req:Request, res:Response) => {
    return  upload(req,res,(err)=>{
        console.log("whatdsap")
-        if(err){
-            
+        if(err){ 
             console.log(err)
             return res.status(500).send("error no pic")
         }
@@ -70,26 +68,20 @@ router.get('/history', authenticate, async (req: (user & Request), res: Response
         res.status(200).json(person) :
         res.status(404).json(person)
 })
+router.get('/items',authenticate, async (req: (user & Request), res: Response) => {
+const person = await items(req?.user as string)
+    return person?.payload ?
+        res.status(200).json(person?.payload) :
+        res.status(404).json(person)
+})
 router.get('/items/:category/:type',authenticate, async (req: (user & Request), res: Response) => {
-const person = await items(req?.user as string,req.params)
+const person = await itemstype(req?.user as string,req.params)
+    console.log(person)
     return person?.payload ?
         res.status(200).json(person?.payload) :
         res.status(404).json(person)
 })
 
-// router.get('/category/:cat', authenticate, async (req: (user & Request), res: Response) => {
-// //onclicking it would take you to that particular category and its items
-// const person = await category(req?.user as string,req.params?.cat)
-//     return person?.payload ?
-//         res.status(200).json(person) :
-//         res.status(404).json(person)
-// })
-router.post('/category', authenticate, async (req: (user & Request), res: Response) => {
-const person = await addcategory(req?.user as string,req.body)
-    return person?.payload ?
-        res.status(200).json(person) :
-        res.status(404).json(person)
-})
 router.post('/items',authenticate, async (req: (user & Request), res: Response) => {
     console.log(req.body)
 const person = await additems(req?.user as string,req.body)
@@ -100,6 +92,12 @@ const person = await additems(req?.user as string,req.body)
 router.post('/history', authenticate, async (req: (user & Request), res: Response) => {
 const person = await addhistory(req?.user as string,req.body)
     return person?.payload ?
+        res.status(200).json(person) :
+        res.status(404).json(person)
+})
+router.post('/search/:id', authenticate, async (req: (user & Request), res: Response) => {
+const person = await Search(req?.user as string,req.params['id'])
+    return person?.search ?
         res.status(200).json(person) :
         res.status(404).json(person)
 })

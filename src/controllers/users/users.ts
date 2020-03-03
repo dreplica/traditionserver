@@ -68,17 +68,23 @@ export const register = async (args: obj) => {
     }
 };
 
-export const profile = async (token: string) => {
+export const itemstype = async (token: string,params:{[key:string]:string}) => {
     console.log("entered")
     if (!token) {
          return {error:"network error, please try again"}
     };
-    try {   
-        const user = await db.query(sql`Select * from users where email = ${token}`)
-        return {payload:user}
-    } catch (error) {
-        console.log(error.message)
-       return {error:"network error, please try again"} 
+    console.log(params)
+    if(params['category']){
+        try {
+            const type = params['type']
+            const cat = params['category']
+            const items = await db.query(sql`Select * from items Where category =${cat} And type=${type}`);
+            console.log(items)
+            return {payload:items}
+        } catch (error) {
+            console.log(error)
+            return {error:error.message}
+        }
     }
 };
 
@@ -116,39 +122,10 @@ export const addhistory = async (token:string,args:obj)=>{
    }
 }
 
-export const category = async (token:string,cat:string) => {
-     if (!token) {
-         return {error:"network error, please try again"}
-    };
-    try {
-        const categories = await db.query(sql`
-        Select category from items
-        `)
-        return {payload:categories}
-    } catch (error) {
-        return {error:error.message}
-    }
-}
+
 
 //add category haapens when the admin is about to add category
-export const addcategory = async (token: string, args: obj) => {
-    console.log("hello")
-     if (!token) {
-         return {error:"network error, please try again"}
-    };
-    //remember to use joi for validation
-    const now = new Date().toISOString();
-    try {
-        console.log('entering')
-        const update = await db.query(sql`Insert into category values(uuid_generate_v4(),
-                        ${args.categoryname},${args.categoryimage},
-                        ${now},${now}) Returning *`)
-        return {payload:update}
-    } catch (error) {
-        console.log(error.message)
-        return {error:error.message}
-    }
-}
+
 
 
 //front end talk
@@ -156,7 +133,7 @@ export const addcategory = async (token: string, args: obj) => {
 //and rerender itself on every search input
 //items table is the key here,
 //e suppose get everything from 
-export const items = async (token: string, id: string) => {
+export const items = async (token: string) => {
     if (!token) {
         return {error:"network error, please try again"}
     }
@@ -190,3 +167,18 @@ export const additems = async (token: string, args: obj) => {
         return {error:error.message}
     }
 };
+
+
+export const Search = async (token:string,args:string)=>{
+    if(!token){
+        return {error:'network error please try again'}
+    }
+    try {
+        const search = await db.query(sql`select * from items where itemname like'%${args}%'`)
+        return {search:search}
+        
+    } catch (error) {
+        return {error:error.message}
+    }
+    return {error:""}
+}

@@ -132,8 +132,8 @@ exports.register = function (args) { return __awaiter(void 0, void 0, void 0, fu
         }
     });
 }); };
-exports.profile = function (token) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, error_3;
+exports.itemstype = function (token, params) { return __awaiter(void 0, void 0, void 0, function () {
+    var type, cat, items_2, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -142,17 +142,22 @@ exports.profile = function (token) { return __awaiter(void 0, void 0, void 0, fu
                     return [2 /*return*/, { error: "network error, please try again" }];
                 }
                 ;
+                console.log(params);
+                if (!params['category']) return [3 /*break*/, 4];
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Select * from users where email = ", ""], ["Select * from users where email = ", ""])), token))];
+                type = params['type'];
+                cat = params['category'];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Select * from items Where category =", " And type=", ""], ["Select * from items Where category =", " And type=", ""])), cat, type))];
             case 2:
-                user = _a.sent();
-                return [2 /*return*/, { payload: user }];
+                items_2 = _a.sent();
+                console.log(items_2);
+                return [2 /*return*/, { payload: items_2 }];
             case 3:
                 error_3 = _a.sent();
-                console.log(error_3.message);
-                return [2 /*return*/, { error: "network error, please try again" }];
+                console.log(error_3);
+                return [2 /*return*/, { error: error_3.message }];
             case 4: return [2 /*return*/];
         }
     });
@@ -206,64 +211,14 @@ exports.addhistory = function (token, args) { return __awaiter(void 0, void 0, v
         }
     });
 }); };
-exports.category = function (token, cat) { return __awaiter(void 0, void 0, void 0, function () {
-    var categories, error_6;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                if (!token) {
-                    return [2 /*return*/, { error: "network error, please try again" }];
-                }
-                ;
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_8 || (templateObject_8 = __makeTemplateObject(["\n        Select category from items\n        "], ["\n        Select category from items\n        "]))))];
-            case 2:
-                categories = _a.sent();
-                return [2 /*return*/, { payload: categories }];
-            case 3:
-                error_6 = _a.sent();
-                return [2 /*return*/, { error: error_6.message }];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); };
 //add category haapens when the admin is about to add category
-exports.addcategory = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
-    var now, update, error_7;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                console.log("hello");
-                if (!token) {
-                    return [2 /*return*/, { error: "network error, please try again" }];
-                }
-                ;
-                now = new Date().toISOString();
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                console.log('entering');
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Insert into category values(uuid_generate_v4(),\n                        ", ",", ",\n                        ", ",", ") Returning *"], ["Insert into category values(uuid_generate_v4(),\n                        ", ",", ",\n                        ", ",", ") Returning *"])), args.categoryname, args.categoryimage, now, now))];
-            case 2:
-                update = _a.sent();
-                return [2 /*return*/, { payload: update }];
-            case 3:
-                error_7 = _a.sent();
-                console.log(error_7.message);
-                return [2 /*return*/, { error: error_7.message }];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); };
 //front end talk
 //for search, create a small component below the search icons, it would fetch data
 //and rerender itself on every search input
 //items table is the key here,
 //e suppose get everything from 
-exports.items = function (token, id) { return __awaiter(void 0, void 0, void 0, function () {
-    var item, error_8;
+exports.items = function (token) { return __awaiter(void 0, void 0, void 0, function () {
+    var item, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -273,22 +228,22 @@ exports.items = function (token, id) { return __awaiter(void 0, void 0, void 0, 
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Select * from items"], ["Select * from items"]))))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Select * from items"], ["Select * from items"]))))];
             case 2:
                 item = _a.sent();
                 console.log(item);
                 return [2 /*return*/, { payload: item }];
             case 3:
-                error_8 = _a.sent();
-                console.log(error_8.message);
-                return [2 /*return*/, { error: error_8.message }];
+                error_6 = _a.sent();
+                console.log(error_6.message);
+                return [2 /*return*/, { error: error_6.message }];
             case 4: return [2 /*return*/];
         }
     });
 }); };
 //happens when the dmin adds an item
 exports.additems = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
-    var now, userId, item, error_9;
+    var now, userId, item, error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -300,19 +255,41 @@ exports.additems = function (token, args) { return __awaiter(void 0, void 0, voi
             case 1:
                 _a.trys.push([1, 4, , 5]);
                 console.log("started adding");
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Select id from users where email=", ""], ["Select id from users where email=", ""])), token))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Select id from users where email=", ""], ["Select id from users where email=", ""])), token))];
             case 2:
                 userId = _a.sent();
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"])), args.itemname, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image, now, now))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"])), args.itemname, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image, now, now))];
             case 3:
                 item = _a.sent();
                 return [2 /*return*/, { payload: item }];
             case 4:
-                error_9 = _a.sent();
-                console.log(error_9.message);
-                return [2 /*return*/, { error: error_9.message }];
+                error_7 = _a.sent();
+                console.log(error_7.message);
+                return [2 /*return*/, { error: error_7.message }];
             case 5: return [2 /*return*/];
         }
     });
 }); };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
+exports.Search = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
+    var search, error_8;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!token) {
+                    return [2 /*return*/, { error: 'network error please try again' }];
+                }
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_11 || (templateObject_11 = __makeTemplateObject(["select * from items where itemname like'%", "%'"], ["select * from items where itemname like'%", "%'"])), args))];
+            case 2:
+                search = _a.sent();
+                return [2 /*return*/, { search: search }];
+            case 3:
+                error_8 = _a.sent();
+                return [2 /*return*/, { error: error_8.message }];
+            case 4: return [2 /*return*/, { error: "" }];
+        }
+    });
+}); };
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11;
