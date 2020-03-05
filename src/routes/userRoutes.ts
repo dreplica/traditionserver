@@ -5,7 +5,7 @@ import {
     home,
     register,
     signin,
-    Search
+    Search,
     itemstype,
     history,
     items,
@@ -63,11 +63,19 @@ router.post('/upload',async (req:Request, res:Response) => {
 //  })
 // router.get('cart', cart)
 router.get('/history', authenticate, async (req: (user & Request), res: Response) => {
+    console.log("history loading ....")
     const person = await history(req?.user as string)
     return person.payload ?
         res.status(200).json(person) :
         res.status(404).json(person)
 })
+router.post('/history', authenticate, async (req: (user & Request), res: Response) => {
+const person = await addhistory(req?.user as string,req.body)
+    return person?.payload ?
+        res.status(200).json(person) :
+        res.status(404).json(person)
+})
+
 router.get('/items',authenticate, async (req: (user & Request), res: Response) => {
 const person = await items(req?.user as string)
     return person?.payload ?
@@ -89,13 +97,8 @@ const person = await additems(req?.user as string,req.body)
         res.status(200).json(person) :
         res.status(404).json(person)
 })
-router.post('/history', authenticate, async (req: (user & Request), res: Response) => {
-const person = await addhistory(req?.user as string,req.body)
-    return person?.payload ?
-        res.status(200).json(person) :
-        res.status(404).json(person)
-})
 router.post('/search/:id', authenticate, async (req: (user & Request), res: Response) => {
+    console.log("searching ....")
 const person = await Search(req?.user as string,req.params['id'])
     return person?.search ?
         res.status(200).json(person) :

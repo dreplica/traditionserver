@@ -15,20 +15,19 @@ exports.up = pgm => {
             type: 'uuid',
             notNull: true,
             references: 'items',
+            referenceskey:'id',
             onDelete:'cascade',
-            onUpdate:'cascade',
-            comment:"its the user id thats the id"
+            onUpdate:'cascade'
         },
         userid: {
             type: 'uuid',
             notNull: true,
             references: 'users',
             onDelete:'cascade',
-            onUpdate:'cascade',
-            comment:"its the user id thats the id"
+            onUpdate:'cascade'
         },
         bought: {
-            type: 'VARCHAR(100)',
+            type: 'text',
             notNull: true,
         },
         quantity: {

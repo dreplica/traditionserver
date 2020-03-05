@@ -48,7 +48,6 @@ var authenticate = function (req, res, next) { return __awaiter(void 0, void 0, 
         switch (_b.label) {
             case 0:
                 token = req.headers['authorization'];
-                console.log(req.headers['authorization']);
                 auth = token.split(" ")[1];
                 return [4 /*yield*/, jwt.verify(auth, (_a = process.env) === null || _a === void 0 ? void 0 : _a.JWTTOKEN)];
             case 1:

@@ -39,7 +39,7 @@ export const signin = async (args: obj) => {
     } catch (error) {
         console.log("error")
         //after am done, if any error occurs, send mismatch in usname or pass
-        return {error:"did you forget your email?"}
+        return {error:"did you mispell password or email?"}
     }
 };
 
@@ -94,11 +94,12 @@ export const history = async (token: string) => {
          return {error:"network error, please try again"}
     };
     try {
-        const hist = await db.query(sql`Select items.item, items.price, 
-                                        history.date_bought, items.supplier
+        const userid = await db.query(sql` select id from users where email=${token}`)
+        const hist = await db.query(sql`Select items.itemname, items.price, 
+                                        history.bought, items.sellerid
                                         From items Inner Join history on
-                                        items.id = history.items_id
-                                        Where history.user_id=${token}`)
+                                        items.id = history.itemid
+                                        Where history.userid=${userid[0]['id']}`)
         return {payload:hist}
     } catch (error) {
         return {error:error.message}
@@ -106,15 +107,20 @@ export const history = async (token: string) => {
 };
 
 //add history happens when the user makes a purchase
-export const addhistory = async (token:string,args:obj)=>{
+export const addhistory = async (token:string,arg:obj[])=>{
     if (!token) {
         return {error:"network error, please try again"}
    };
+   console.log(arg)
    const now = new Date().toISOString();
    try {
-       const add = await db.query(sql`insert into history Values (uuid_generate_v4(),
-                    ${args.itemid},${args.userid},${args.bougth},${args.quantity},
-                    ${args.delivered},${now},) Returning *`)
+       const user = await db.query(sql`select id from users where email=${token}`)
+       console.log(user[0].id)
+       const add =  await arg.map(async (item)=>db.query(sql`insert into history Values(uuid_generate_v4(),
+                    ${item.id},${user[0].id},${item?.bougth ?? "no"},${0},
+                    ${item.delivered ?? "not yet"},${now}) returning *`)
+       )
+        console.log("it added")
         return {payload:add}
    } catch (error) {
        console.log(error.messsage);
@@ -174,11 +180,12 @@ export const Search = async (token:string,args:string)=>{
         return {error:'network error please try again'}
     }
     try {
-        const search = await db.query(sql`select * from items where itemname like'%${args}%'`)
-        return {search:search}
+        console.log(args)
+        const search = await db.query(sql`select * from items where lower(itemname) like ${'%'+args+'%'} `)
+        console.log(search)
+        return {search:search} 
         
     } catch (error) {
         return {error:error.message}
     }
-    return {error:""}
 }

@@ -15,8 +15,8 @@ exports.up = pgm => {
             type: 'uuid',
             notNull: true,
             references: 'users(id)',
-            ondelete:'cascade',
-            onupdate:'cascade',
+            onDelete:'cascade',
+            onUpdate:'cascade',
             comment:"uses email as key"
         },
         username: {

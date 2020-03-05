@@ -43,8 +43,8 @@ exports.up = pgm => {
             type: 'uuid',
             notNull: true,
             references: 'users',
-            ondelete:'cascade',
-            onupdate:'cascade'
+            onDelete:'cascade',
+            onUpdate:'cascade'
         },
         image: {
             type: 'TEXT',
