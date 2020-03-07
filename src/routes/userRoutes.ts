@@ -10,7 +10,9 @@ import {
     history,
     items,
     addhistory,
-    additems
+    additems,
+    
+    getSearchItem
 } from '../controllers/users/users'
 import { upload } from '../app';
 
@@ -82,6 +84,12 @@ const person = await items(req?.user as string)
         res.status(200).json(person?.payload) :
         res.status(404).json(person)
 })
+router.get('/items/:id',authenticate, async (req: (user & Request), res: Response) => {
+const person = await getSearchItem(req?.user as string, req.params['id'] as string)
+    return person?.search ?
+        res.status(200).json(person) :
+        res.status(404).json(person)
+})
 router.get('/items/:category/:type',authenticate, async (req: (user & Request), res: Response) => {
 const person = await itemstype(req?.user as string,req.params)
     console.log(person)
@@ -97,7 +105,7 @@ const person = await additems(req?.user as string,req.body)
         res.status(200).json(person) :
         res.status(404).json(person)
 })
-router.post('/search/:id', authenticate, async (req: (user & Request), res: Response) => {
+router.get('/search/:id', authenticate, async (req: (user & Request), res: Response) => {
     console.log("searching ....")
 const person = await Search(req?.user as string,req.params['id'])
     return person?.search ?

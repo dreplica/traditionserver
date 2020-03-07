@@ -160,6 +160,20 @@ router.get('/items', authenticate_1.default, function (req, res) { return __awai
         }
     });
 }); });
+router.get('/items/:id', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var person;
+    var _a, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, users_1.getSearchItem((_a = req) === null || _a === void 0 ? void 0 : _a.user, req.params['id'])];
+            case 1:
+                person = _c.sent();
+                return [2 /*return*/, ((_b = person) === null || _b === void 0 ? void 0 : _b.search) ?
+                        res.status(200).json(person) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
 router.get('/items/:category/:type', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
     var _a, _b, _c;
@@ -191,7 +205,7 @@ router.post('/items', authenticate_1.default, function (req, res) { return __awa
         }
     });
 }); });
-router.post('/search/:id', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/search/:id', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
     var _a, _b;
     return __generator(this, function (_c) {

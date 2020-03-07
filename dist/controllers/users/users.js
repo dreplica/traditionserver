@@ -177,9 +177,10 @@ exports.history = function (token) { return __awaiter(void 0, void 0, void 0, fu
                 return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_6 || (templateObject_6 = __makeTemplateObject([" select id from users where email=", ""], [" select id from users where email=", ""])), token))];
             case 2:
                 userid = _a.sent();
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Select items.itemname, items.price, \n                                        history.bought, items.sellerid\n                                        From items Inner Join history on\n                                        items.id = history.itemid\n                                        Where history.userid=", ""], ["Select items.itemname, items.price, \n                                        history.bought, items.sellerid\n                                        From items Inner Join history on\n                                        items.id = history.itemid\n                                        Where history.userid=", ""])), userid[0]['id']))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Select items.itemname,items.id, items.price, \n                                        history.bought, items.sellerid, history.created\n                                        From items Inner Join history on\n                                        items.id = history.itemid\n                                        Where history.userid=", ""], ["Select items.itemname,items.id, items.price, \n                                        history.bought, items.sellerid, history.created\n                                        From items Inner Join history on\n                                        items.id = history.itemid\n                                        Where history.userid=", ""])), userid[0]['id']))];
             case 3:
                 hist = _a.sent();
+                console.log(hist);
                 return [2 /*return*/, { payload: hist }];
             case 4:
                 error_4 = _a.sent();
@@ -198,7 +199,6 @@ exports.addhistory = function (token, arg) { return __awaiter(void 0, void 0, vo
                     return [2 /*return*/, { error: "network error, please try again" }];
                 }
                 ;
-                console.log(arg);
                 now = new Date().toISOString();
                 _a.label = 1;
             case 1:
@@ -206,7 +206,6 @@ exports.addhistory = function (token, arg) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_8 || (templateObject_8 = __makeTemplateObject(["select id from users where email=", ""], ["select id from users where email=", ""])), token))];
             case 2:
                 user_1 = _a.sent();
-                console.log(user_1[0].id);
                 return [4 /*yield*/, arg.map(function (item) { return __awaiter(void 0, void 0, void 0, function () {
                         var _a, _b, _c;
                         return __generator(this, function (_d) {
@@ -215,11 +214,9 @@ exports.addhistory = function (token, arg) { return __awaiter(void 0, void 0, vo
                     }); })];
             case 3:
                 add = _a.sent();
-                console.log("it added");
                 return [2 /*return*/, { payload: add }];
             case 4:
                 error_5 = _a.sent();
-                console.log(error_5.messsage);
                 return [2 /*return*/, { error: error_5.message }];
             case 5: return [2 /*return*/];
         }
@@ -255,9 +252,33 @@ exports.items = function (token) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
+exports.getSearchItem = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
+    var item, error_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!token) {
+                    return [2 /*return*/, { error: "network error, please try again" }];
+                }
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Select * from items where id=", ""], ["Select * from items where id=", ""])), args))];
+            case 2:
+                item = _a.sent();
+                console.log(item);
+                return [2 /*return*/, { search: item }];
+            case 3:
+                error_7 = _a.sent();
+                console.log(error_7.message);
+                return [2 /*return*/, { error: error_7.message }];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
 //happens when the dmin adds an item
 exports.additems = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
-    var now, userId, item, error_7;
+    var now, userId, item, error_8;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -269,23 +290,23 @@ exports.additems = function (token, args) { return __awaiter(void 0, void 0, voi
             case 1:
                 _a.trys.push([1, 4, , 5]);
                 console.log("started adding");
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Select id from users where email=", ""], ["Select id from users where email=", ""])), token))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Select id from users where email=", ""], ["Select id from users where email=", ""])), token))];
             case 2:
                 userId = _a.sent();
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"])), args.itemname, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image, now, now))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"])), args.itemname, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image, now, now))];
             case 3:
                 item = _a.sent();
                 return [2 /*return*/, { payload: item }];
             case 4:
-                error_7 = _a.sent();
-                console.log(error_7.message);
-                return [2 /*return*/, { error: error_7.message }];
+                error_8 = _a.sent();
+                console.log(error_8.message);
+                return [2 /*return*/, { error: error_8.message }];
             case 5: return [2 /*return*/];
         }
     });
 }); };
 exports.Search = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
-    var search, error_8;
+    var search, error_9;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -296,16 +317,16 @@ exports.Search = function (token, args) { return __awaiter(void 0, void 0, void 
             case 1:
                 _a.trys.push([1, 3, , 4]);
                 console.log(args);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_13 || (templateObject_13 = __makeTemplateObject(["select * from items where lower(itemname) like ", " "], ["select * from items where lower(itemname) like ", " "])), '%' + args + '%'))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_14 || (templateObject_14 = __makeTemplateObject(["select * from items where lower(itemname) like ", ""], ["select * from items where lower(itemname) like ", ""])), '%' + args + '%'))];
             case 2:
                 search = _a.sent();
                 console.log(search);
                 return [2 /*return*/, { search: search }];
             case 3:
-                error_8 = _a.sent();
-                return [2 /*return*/, { error: error_8.message }];
+                error_9 = _a.sent();
+                return [2 /*return*/, { error: error_9.message }];
             case 4: return [2 /*return*/];
         }
     });
 }); };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14;
