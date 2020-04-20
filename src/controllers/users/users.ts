@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from "dotenv"
 import { db, sql } from '../../models/pg-model';
@@ -73,7 +72,6 @@ export const itemstype = async (token: string,params:{[key:string]:string}) => {
     if (!token) {
          return {error:"network error, please try again"}
     };
-    console.log(params)
     if(params['category']){
         try {
             const type = params['type']
@@ -82,7 +80,6 @@ export const itemstype = async (token: string,params:{[key:string]:string}) => {
             console.log(items)
             return {payload:items}
         } catch (error) {
-            console.log(error)
             return {error:error.message}
         }
     }
@@ -100,7 +97,7 @@ export const history = async (token: string) => {
                                         From items Inner Join history on
                                         items.id = history.itemid
                                         Where history.userid=${userid[0]['id']}`)
-       console.log(hist)
+
         return {payload:hist}
     } catch (error) {
         return {error:error.message}
@@ -163,6 +160,8 @@ export const getSearchItem = async (token: string,args:string) => {
     }
 }; 
 
+
+ 
 //happens when the dmin adds an item
 export const additems = async (token: string, args: obj) => {
     if (!token) {
@@ -185,7 +184,7 @@ export const additems = async (token: string, args: obj) => {
 };
 
 
-export const Search = async (token:string,args:string)=>{
+export const Search = async (token:string,args:string) =>{
     if(!token){
         return {error:'network error please try again'}
     }

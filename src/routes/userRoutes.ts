@@ -39,6 +39,7 @@ router.post('/signup', async (req:Request, res:Response) => {
         res.status(404).json(person)
 })
 
+
 router.post('/signin', async (req:Request, res:Response) => {
     console.log("signing in")
     const person:{[key:string]:string|undefined} = await signin(req.body)
@@ -53,6 +54,7 @@ router.post('/upload',async (req:Request, res:Response) => {
             console.log(err)
             return res.status(500).send("error no pic")
         }
+        console.log(req.file)
         return res.status(200).send("thank you")
     })
 })
@@ -112,7 +114,6 @@ const person = await Search(req?.user as string,req.params['id'])
         res.status(200).json(person) :
         res.status(404).json(person)
 })
-// router.get('items', items)+
 
 
 export default router;

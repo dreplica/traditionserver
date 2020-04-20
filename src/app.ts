@@ -4,7 +4,6 @@ import cors from 'cors'
 import userControl from './routes/userRoutes'
 import adminControl from './routes/adminRoutes'
 import winston from 'winston';
-import path from 'path'
 
 import expressWinston from 'express-winston';
 import multer from 'multer'
