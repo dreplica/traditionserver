@@ -22,13 +22,9 @@ exports.up = (pgm) => {
 		category: {
 			type: 'TEXT',
 			notNull: true
-			// references: 'category',
-			// referenceskey:'id',
-			// onDelete:'Cascade',
-			// onUpdate:'Cascade'
 		},
 		price: {
-			type: 'VARCHAR(100)',
+			type: 'INT',
 			notNull: true
 		},
 		description: {
@@ -50,13 +46,15 @@ exports.up = (pgm) => {
 			type: 'TEXT',
 			notNull: false
 		},
-		created: {
-			type: 'VARCHAR(100)',
-			notNull: true
+		createdAt: {
+			type: 'timestamp',
+			notNull: true,
+			default: pgm.func('current_timestamp')
 		},
-		updated: {
-			type: 'VARCHAR(100)',
-			notNull: true
+		updatedAt: {
+			type: 'timestamp',
+			notNull: true,
+			default: pgm.func('current_timestamp')
 		}
 	});
 };

@@ -39,10 +39,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var authorize_1 = require("./../controllers/users/authorize");
 var express_1 = __importDefault(require("express"));
 var authenticate_1 = __importDefault(require("../authenticate/authenticate"));
 var users_1 = require("../controllers/users/users");
 var app_1 = require("../app");
+var authorize_2 = require("../controllers/users/authorize");
+var transaction_1 = require("../controllers/users/transaction");
+var items_1 = require("../controllers/users/items");
 var router = express_1.default.Router();
 // the site is where people sell just traditional clothes
 router.get('/home', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -69,7 +73,7 @@ router.post('/signup', function (req, res) { return __awaiter(void 0, void 0, vo
             case 0:
                 console.log("enter");
                 console.log(req.body);
-                return [4 /*yield*/, users_1.register(req.body)];
+                return [4 /*yield*/, authorize_2.register(req.body)];
             case 1:
                 person = _a.sent();
                 console.log(person);
@@ -85,7 +89,7 @@ router.post('/signin', function (req, res) { return __awaiter(void 0, void 0, vo
         switch (_a.label) {
             case 0:
                 console.log("signing in");
-                return [4 /*yield*/, users_1.signin(req.body)];
+                return [4 /*yield*/, authorize_1.signin(req.body)];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.token) ?
@@ -121,7 +125,7 @@ router.get('/history', authenticate_1.default, function (req, res) { return __aw
         switch (_a.label) {
             case 0:
                 console.log("history loading ....");
-                return [4 /*yield*/, users_1.history(req === null || req === void 0 ? void 0 : req.user)];
+                return [4 /*yield*/, transaction_1.history(req === null || req === void 0 ? void 0 : req.user)];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, person.payload ?
@@ -134,7 +138,7 @@ router.post('/history', authenticate_1.default, function (req, res) { return __a
     var person;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, users_1.addhistory(req === null || req === void 0 ? void 0 : req.user, req.body)];
+            case 0: return [4 /*yield*/, transaction_1.addhistory(req === null || req === void 0 ? void 0 : req.user, req.body)];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
@@ -147,7 +151,7 @@ router.get('/items', authenticate_1.default, function (req, res) { return __awai
     var person;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, users_1.items(req === null || req === void 0 ? void 0 : req.user)];
+            case 0: return [4 /*yield*/, items_1.items(req === null || req === void 0 ? void 0 : req.user)];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
@@ -170,13 +174,15 @@ router.get('/items/:id', authenticate_1.default, function (req, res) { return __
     });
 }); });
 router.get('/items/:category/:type', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var person;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, users_1.itemstype(req === null || req === void 0 ? void 0 : req.user, req.params)];
+    var _a, category, type, token, person;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.params, category = _a.category, type = _a.type;
+                token = req.user;
+                return [4 /*yield*/, items_1.itemstype(token, { category: category, type: type })];
             case 1:
-                person = _a.sent();
-                console.log(person);
+                person = _b.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
                         res.status(200).json(person === null || person === void 0 ? void 0 : person.payload) :
                         res.status(404).json(person)];
@@ -189,7 +195,7 @@ router.post('/items', authenticate_1.default, function (req, res) { return __awa
         switch (_a.label) {
             case 0:
                 console.log(req.body);
-                return [4 /*yield*/, users_1.additems(req === null || req === void 0 ? void 0 : req.user, req.body)];
+                return [4 /*yield*/, items_1.additems(req === null || req === void 0 ? void 0 : req.user, req.body)];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?

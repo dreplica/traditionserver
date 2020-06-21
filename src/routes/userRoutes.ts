@@ -1,20 +1,16 @@
+import { signin } from './../controllers/users/authorize';
 import express, { Response,Request, NextFunction } from 'express';
 import authenticate, {user} from '../authenticate/authenticate'
 import path from 'path'
 import {
     home,
-    register,
-    signin,
     Search,
-    itemstype,
-    history,
-    items,
-    addhistory,
-    additems,
-    
     getSearchItem
 } from '../controllers/users/users'
 import { upload } from '../app';
+import { register } from '../controllers/users/authorize';
+import { history, addhistory } from '../controllers/users/transaction';
+import { items, itemstype, additems } from '../controllers/users/items';
 
 
 const router = express.Router();
@@ -42,7 +38,7 @@ router.post('/signup', async (req:Request, res:Response) => {
 
 router.post('/signin', async (req:Request, res:Response) => {
     console.log("signing in")
-    const person:{[key:string]:string|undefined} = await signin(req.body)
+    const person = await signin(req.body)
     return person?.token ? 
         res.status(200).json(person) :
         res.status(404).json(person)
@@ -92,9 +88,12 @@ const person = await getSearchItem(req?.user as string, req.params['id'] as stri
         res.status(200).json(person) :
         res.status(404).json(person)
 })
-router.get('/items/:category/:type',authenticate, async (req: (user & Request), res: Response) => {
-const person = await itemstype(req?.user as string,req.params)
-    console.log(person)
+router.get('/items/:category/:type', authenticate, async (req: (user & Request), res: Response) => {
+    const { category, type } = req.params
+    const token = req.user as string
+
+    const person = await itemstype(token, { category, type })
+    
     return person?.payload ?
         res.status(200).json(person?.payload) :
         res.status(404).json(person)

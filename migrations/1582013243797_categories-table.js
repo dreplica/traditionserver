@@ -24,14 +24,16 @@ exports.up = pgm => {
             notNull: true,
             comment:`contains the path to the image for categories`
         },
-        created: {
-            type: 'VARCHAR(100)',
-            notNull: true,
+        createdAt:{
+            type:'timestamp',
+            notNull:true,
+            default:pgm.func('current_timestamp')
         },
-        updated: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-        },
+        updatedAt:{
+            type:'timestamp',
+            notNull:true,
+            default:pgm.func('current_timestamp')
+        }
     })
 };
 

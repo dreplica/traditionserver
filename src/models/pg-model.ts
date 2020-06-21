@@ -1,5 +1,6 @@
 import connect,{sql } from '@databases/pg';
 import dotenv from 'dotenv'
+
 dotenv.config()
 
 const db = connect();
