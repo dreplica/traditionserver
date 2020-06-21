@@ -52,10 +52,10 @@ exports.signin = function (body) { return __awaiter(void 0, void 0, void 0, func
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select password,isadmin from users where email=", ""], ["Select password,isadmin from users where email=", ""])), body.email))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["SELECT password,isadmin FROM users WHERE email=", ""], ["SELECT password,isadmin FROM users WHERE email=", ""])), body.email))];
             case 1:
                 user = (_a.sent())[0];
-                return [4 /*yield*/, bcryptjs_1.default.compare(body.password, user[0].password)];
+                return [4 /*yield*/, bcryptjs_1.default.compare(body.password, user.password)];
             case 2:
                 compare = _a.sent();
                 if (!compare || user.length === 0) {
@@ -78,7 +78,7 @@ exports.register = function (body) { return __awaiter(void 0, void 0, void 0, fu
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 5, , 6]);
+                _b.trys.push([0, 7, , 8]);
                 Created = new Date().toISOString();
                 Updated = new Date().toISOString();
                 return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select email from users where email = ", ""], ["Select email from users where email = ", ""])), body.email))];
@@ -93,20 +93,23 @@ exports.register = function (body) { return __awaiter(void 0, void 0, void 0, fu
                 return [4 /*yield*/, bcryptjs_1.default.hash(body.password, salt)];
             case 3:
                 hash = _b.sent();
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ") returning id"], ["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ") returning id"])), body.username, body.firstname, body.lastname, body.email, hash, body.phone, (_a = body.isadmin) !== null && _a !== void 0 ? _a : true, Created, Updated))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ") returning id"], ["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ") returning id"])), body.username, body.firstname, body.lastname, body.email, hash, body.phone, (_a = body.isadmin) !== null && _a !== void 0 ? _a : true))];
             case 4:
                 user = (_b.sent())[0];
-                if (body.isadmin) {
-                    pg_model_1.db.query(pg_model_1.sql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["INSERT INTO seller VALUES (uuid_generate_v4(),\n            ", ", ", ",", ",\n            ", ",", ",", ",", ")"], ["INSERT INTO seller VALUES (uuid_generate_v4(),\n            ", ", ", ",", ",\n            ", ",", ",", ",", ")"])), user.id, body.companyname, body.companydesc, body.logo, body.facebook, body.twitter, body.instagram));
-                }
+                if (!body.isadmin) return [3 /*break*/, 6];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["INSERT INTO seller VALUES (uuid_generate_v4(),\n            ", ", ", ",", ",\n            ", ",", ",", ",", ")"], ["INSERT INTO seller VALUES (uuid_generate_v4(),\n            ", ", ", ",", ",\n            ", ",", ",", ",", ")"])), user.id, body.companyname, body.companydesc, body.logo, body.facebook, body.twitter, body.instagram))];
+            case 5:
+                _b.sent();
+                _b.label = 6;
+            case 6:
                 token = jsonwebtoken_1.default.sign({ token: body.email }, process.env.JWTTOKEN);
                 return [2 /*return*/, { token: token, admin: body.isadmin }
                     //after registering, send a mail to user, requesting approval
                 ];
-            case 5:
+            case 7:
                 error_2 = _b.sent();
                 return [2 /*return*/, { error: error_2.message }];
-            case 6: return [2 /*return*/];
+            case 8: return [2 /*return*/];
         }
     });
 }); };

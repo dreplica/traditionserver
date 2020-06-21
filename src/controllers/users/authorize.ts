@@ -8,14 +8,15 @@ import { SIGNUP, SIGNIN } from './../../lib/type';
 
 export const signin = async (body: SIGNIN) => {
     try { 
-        const [user] = await db.query(sql`Select password,isadmin from users where email=${body.email}`)
-        const compare = await bcrypt.compare(body.password, user[0].password)
-        
-        if (!compare ||user.length === 0) {
+        const [user] = await db.query(sql`SELECT password,isadmin FROM users WHERE email=${body.email}`)
+        const compare = await bcrypt.compare(body.password, user.password)
+
+        if (!compare || user.length === 0) {
             return {error:"did you mispell password or email?"};
         }
         const token = jsonwebtoken.sign({ token: body.email }, process.env.JWTTOKEN as string)
-        return {token:token,admin:user.isadmin}
+        return { token: token, admin: user.isadmin }
+        
     } catch (error) {
         console.log("error")
         //after am done, if any error occurs, send mismatch in usname or pass
@@ -40,11 +41,10 @@ export const register = async (body: SIGNUP) => {
         
        const [user] = await db.query(sql`Insert into Users values (uuid_generate_v4(),
         ${body.username}, ${body.firstname}, ${body.lastname},
-        ${body.email},${hash}, ${body.phone}, ${body.isadmin ?? true}, 
-        ${Created},${Updated}) returning id`);
+        ${body.email},${hash}, ${body.phone}, ${body.isadmin ?? true}) returning id`);
 
         if (body.isadmin) {
-            db.query(sql`INSERT INTO seller VALUES (uuid_generate_v4(),
+           await db.query(sql`INSERT INTO seller VALUES (uuid_generate_v4(),
             ${user.id}, ${body.companyname},${body.companydesc},
             ${body.logo},${body.facebook},${body.twitter},${body.instagram})`)
         }
