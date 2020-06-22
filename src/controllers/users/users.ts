@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Request, Response } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from "dotenv"
@@ -11,6 +12,11 @@ interface obj {
     [key:string]:string
 }
 
+=======
+import { db, sql } from '../../models/pg-model';
+
+// the site is where people sell just traditional clothes
+>>>>>>> 2e3cf9387ab7f814eec387698bcbc1a01fb7b381
 export const home = async (token: string) => {
     if (!token) {
         console.log("no token")
@@ -25,130 +31,10 @@ export const home = async (token: string) => {
     }
 };
 
-export const signin = async (args: obj) => {
-	const body = args;
-    try { 
-        const user = await db.query(sql`Select password,isadmin from users where email=${body.email}`)
-        const compare = await bcrypt.compare(body.password, user[0].password)
-        
-        if (!compare ||user.length === 0) {
-            return {error:"did you mispell password or email?"};
-        }
-        const token = jsonwebtoken.sign({ token: body.email }, process.env.JWTTOKEN as string)
-        return {token:token,admin:user[0].isadmin}
-    } catch (error) {
-        console.log("error")
-        //after am done, if any error occurs, send mismatch in usname or pass
-        return {error:"did you forget your email?"}
-    }
-};
 
-export const register = async (args: obj) => {
-    const body = args;
-	// const {error} = signIn.validate(body)
-    try {
-        const Created = new Date().toISOString()
-        const Updated = new Date().toISOString()
-        const checkUser = await db.query(sql`Select email from users where email = ${body.email}`);
-        console.log(checkUser)
-        if (checkUser.length > 0) {
-            return {error: "sorry this account already exist!"}
-        }
-		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(body.password, salt);
-        db.query(sql`Insert into Users values (uuid_generate_v4(),
-        ${body.username}, ${body.firstname}, ${body.lastname},
-        ${body.email},${hash}, ${body.phone}, ${body.admin ?? true}, 
-        ${Created},${Updated})`);
-        const token = jsonwebtoken.sign({ token: body.email }, process.env.JWTTOKEN as string)
-        return { token: token,admin:body.admin}
-        //after registering, send a mail to user, requesting approval
-    } catch (error) {
-        return {error:error.message}
-    }
-};
-
-export const profile = async (token: string) => {
-    console.log("entered")
-    if (!token) {
-         return {error:"network error, please try again"}
-    };
-    try {   
-        const user = await db.query(sql`Select * from users where email = ${token}`)
-        return {payload:user}
-    } catch (error) {
-        console.log(error.message)
-       return {error:"network error, please try again"} 
-    }
-};
-
-
-export const history = async (token: string) => {
-    if (!token) {
-         return {error:"network error, please try again"}
-    };
-    try {
-        const hist = await db.query(sql`Select items.item, items.price, 
-                                        history.date_bought, items.supplier
-                                        From items Inner Join history on
-                                        items.id = history.items_id
-                                        Where history.user_id=${token}`)
-        return {payload:hist}
-    } catch (error) {
-        return {error:error.message}
-    }
-};
-
-//add history happens when the user makes a purchase
-export const addhistory = async (token:string,args:obj)=>{
-    if (!token) {
-        return {error:"network error, please try again"}
-   };
-   const now = new Date().toISOString();
-   try {
-       const add = await db.query(sql`insert into history Values (uuid_generate_v4(),
-                    ${args.itemid},${args.userid},${args.bougth},${args.quantity},
-                    ${args.delivered},${now},) Returning *`)
-        return {payload:add}
-   } catch (error) {
-       console.log(error.messsage);
-       return {error:error.message}
-   }
-}
-
-export const category = async (token:string,cat:string) => {
-     if (!token) {
-         return {error:"network error, please try again"}
-    };
-    try {
-        const categories = await db.query(sql`
-        Select category from items
-        `)
-        return {payload:categories}
-    } catch (error) {
-        return {error:error.message}
-    }
-}
 
 //add category haapens when the admin is about to add category
-export const addcategory = async (token: string, args: obj) => {
-    console.log("hello")
-     if (!token) {
-         return {error:"network error, please try again"}
-    };
-    //remember to use joi for validation
-    const now = new Date().toISOString();
-    try {
-        console.log('entering')
-        const update = await db.query(sql`Insert into category values(uuid_generate_v4(),
-                        ${args.categoryname},${args.categoryimage},
-                        ${now},${now}) Returning *`)
-        return {payload:update}
-    } catch (error) {
-        console.log(error.message)
-        return {error:error.message}
-    }
-}
+
 
 
 //front end talk
@@ -156,20 +42,32 @@ export const addcategory = async (token: string, args: obj) => {
 //and rerender itself on every search input
 //items table is the key here,
 //e suppose get everything from 
+<<<<<<< HEAD
 export const items = async (token: string, id: string) => {
+=======
+
+export const getSearchItem = async (token: string,args:string) => {
+>>>>>>> 2e3cf9387ab7f814eec387698bcbc1a01fb7b381
     if (!token) {
         return {error:"network error, please try again"}
     }
     try {
+<<<<<<< HEAD
         const item = await db.query(sql`Select * from items where id=${id}`)
         console.log(item);
         return {payload:item}
+=======
+        const item = await db.query(sql`Select * from items where id=${args}`)
+        console.log(item);
+        return {search:item}
+>>>>>>> 2e3cf9387ab7f814eec387698bcbc1a01fb7b381
     } catch (error) {
         console.log(error.message);
         return {error:error.message}
     }
 }; 
 
+<<<<<<< HEAD
 //happens when the dmin adds an item
 export const additems = async (token: string, args: obj) => {
     if (!token) {
@@ -190,3 +88,20 @@ export const additems = async (token: string, args: obj) => {
         return {error:error.message}
     }
 };
+=======
+
+export const Search = async (token:string,args:string) =>{
+    if(!token){
+        return {error:'network error please try again'}
+    }
+    try {
+        console.log(args)
+        const search = await db.query(sql`select * from items where lower(itemname) like ${'%'+args+'%'}`)
+        console.log(search)
+        return {search:search} 
+        
+    } catch (error) {
+        return {error:error.message}
+    }
+}
+>>>>>>> 2e3cf9387ab7f814eec387698bcbc1a01fb7b381

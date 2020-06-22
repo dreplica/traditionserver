@@ -14,27 +14,45 @@ exports.up = pgm => {
         userid: {
             type: 'uuid',
             notNull: true,
-            references: 'users(id)',
-            ondelete:'cascade',
-            onupdate:'cascade',
+            references: 'users',
+            onDelete:'cascade',
+            onUpdate:'cascade',
             comment:"uses email as key"
         },
-        username: {
+        companyname: {
             type: 'VARCHAR(100)',
             notNull: true,
         },
-        phone: {
-            type: 'VARCHAR(100)',
+        companydesc: {
+            type: 'TEXT',
             notNull: true,
         },
-        created: {
-            type: 'VARCHAR(100)',
+        logo: {
+            type: 'Text',
+          notNull:true  
+        },
+        facebook: {
+            type: 'TEXT',
             notNull: true,
         },
-        updated: {
-            type: 'VARCHAR(100)',
+        twitter: {
+            type: 'TEXT',
             notNull: true,
         },
+        instagram: {
+            type: 'TEXT',
+            notNull: true,
+        },
+        createdAt:{
+            type:'timestamp',
+            notNull:true,
+            default:pgm.func('current_timestamp')
+        },
+        updatedAt:{
+            type:'timestamp',
+            notNull:true,
+            default:pgm.func('current_timestamp')
+        }
     })
 };
 

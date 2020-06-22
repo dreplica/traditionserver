@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var http_errors_1 = __importDefault(require("http-errors"));
 var cors_1 = __importDefault(require("cors"));
-var userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 var winston_1 = __importDefault(require("winston"));
 var express_winston_1 = __importDefault(require("express-winston"));
 var multer_1 = __importDefault(require("multer"));
+var userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 // the site is where people sell just traditional made things
 var storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
@@ -38,7 +38,6 @@ app.disable('x-powered-by');
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(logger);
-app.use(function () { return console.log(__dirname + ""); });
 app.use("/", userRoutes_1.default);
 app.use(function (_req, _res, next) {
     next(http_errors_1.default(404));

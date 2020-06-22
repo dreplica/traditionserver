@@ -40,14 +40,16 @@ exports.up = pgm => {
             type: 'VARCHAR(10)',
             notNull: true,
         },
-        created: {
-            type: 'VARCHAR(100)',
-            notNull: true,
+        createdAt:{
+            type:'timestamp',
+            notNull:true,
+            default:pgm.func('current_timestamp')
         },
-        updated: {
-            type: 'VARCHAR(100)',
-            notNull: true,
-        },
+        updatedAt:{
+            type:'timestamp',
+            notNull:true,
+            default:pgm.func('current_timestamp')
+        }
     })
 };
 
