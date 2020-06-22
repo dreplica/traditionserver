@@ -48,7 +48,7 @@ var transaction_1 = require("../controllers/users/transaction");
 var items_1 = require("../controllers/users/items");
 var router = express_1.default.Router();
 // the site is where people sell just traditional clothes
-router.get('/home', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
     return __generator(this, function (_a) {
         switch (_a.label) {
