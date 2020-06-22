@@ -47,15 +47,14 @@ var router = express_1.default.Router();
 // the site is where people sell just traditional clothes
 router.get('/home', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 console.log(__dirname);
                 res.sendFile(__dirname, 'userRoutes.ts');
-                return [4 /*yield*/, users_1.home((_a = req) === null || _a === void 0 ? void 0 : _a.user)];
+                return [4 /*yield*/, users_1.home(req === null || req === void 0 ? void 0 : req.user)];
             case 1:
-                person = _b.sent();
+                person = _a.sent();
                 console.log("coming");
                 return [2 /*return*/, person.payload ?
                         res.status(200).json(person) :
@@ -82,15 +81,14 @@ router.post('/signup', function (req, res) { return __awaiter(void 0, void 0, vo
 }); });
 router.post('/signin', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 console.log("signing in");
                 return [4 /*yield*/, users_1.signin(req.body)];
             case 1:
-                person = _b.sent();
-                return [2 /*return*/, ((_a = person) === null || _a === void 0 ? void 0 : _a.token) ?
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.token) ?
                         res.status(200).json(person) :
                         res.status(404).json(person)];
         }
@@ -110,14 +108,13 @@ router.post('/upload', function (req, res) { return __awaiter(void 0, void 0, vo
 }); });
 router.get('/profile', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                console.log("here its user", (_a = req) === null || _a === void 0 ? void 0 : _a.user);
-                return [4 /*yield*/, users_1.profile((_b = req) === null || _b === void 0 ? void 0 : _b.user)];
+                console.log("here its user", req === null || req === void 0 ? void 0 : req.user);
+                return [4 /*yield*/, users_1.profile(req === null || req === void 0 ? void 0 : req.user)];
             case 1:
-                person = _c.sent();
+                person = _a.sent();
                 return [2 /*return*/, person.payload ?
                         res.status(200).json(person) :
                         res.status(404).json(person)];
@@ -127,12 +124,11 @@ router.get('/profile', authenticate_1.default, function (req, res) { return __aw
 // router.get('cart', cart)
 router.get('/history', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, users_1.history((_a = req) === null || _a === void 0 ? void 0 : _a.user)];
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, users_1.history(req === null || req === void 0 ? void 0 : req.user)];
             case 1:
-                person = _b.sent();
+                person = _a.sent();
                 return [2 /*return*/, person.payload ?
                         res.status(200).json(person) :
                         res.status(404).json(person)];
@@ -141,13 +137,13 @@ router.get('/history', authenticate_1.default, function (req, res) { return __aw
 }); });
 router.get('/items/:id', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a, _b, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
-            case 0: return [4 /*yield*/, users_1.items((_a = req) === null || _a === void 0 ? void 0 : _a.user, (_b = req.params) === null || _b === void 0 ? void 0 : _b.id)];
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, users_1.items(req === null || req === void 0 ? void 0 : req.user, (_a = req.params) === null || _a === void 0 ? void 0 : _a.id)];
             case 1:
-                person = _d.sent();
-                return [2 /*return*/, ((_c = person) === null || _c === void 0 ? void 0 : _c.payload) ?
+                person = _b.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
                         res.status(200).json(person) :
                         res.status(404).json(person)];
         }
@@ -155,13 +151,13 @@ router.get('/items/:id', authenticate_1.default, function (req, res) { return __
 }); });
 router.get('/category/:cat', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a, _b, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
-            case 0: return [4 /*yield*/, users_1.category((_a = req) === null || _a === void 0 ? void 0 : _a.user, (_b = req.params) === null || _b === void 0 ? void 0 : _b.cat)];
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, users_1.category(req === null || req === void 0 ? void 0 : req.user, (_a = req.params) === null || _a === void 0 ? void 0 : _a.cat)];
             case 1:
-                person = _d.sent();
-                return [2 /*return*/, ((_c = person) === null || _c === void 0 ? void 0 : _c.payload) ?
+                person = _b.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
                         res.status(200).json(person) :
                         res.status(404).json(person)];
         }
@@ -169,13 +165,12 @@ router.get('/category/:cat', authenticate_1.default, function (req, res) { retur
 }); });
 router.post('/category', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0: return [4 /*yield*/, users_1.addcategory((_a = req) === null || _a === void 0 ? void 0 : _a.user, req.body)];
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, users_1.addcategory(req === null || req === void 0 ? void 0 : req.user, req.body)];
             case 1:
-                person = _c.sent();
-                return [2 /*return*/, ((_b = person) === null || _b === void 0 ? void 0 : _b.payload) ?
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
                         res.status(200).json(person) :
                         res.status(404).json(person)];
         }
@@ -183,13 +178,12 @@ router.post('/category', authenticate_1.default, function (req, res) { return __
 }); });
 router.post('/items', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0: return [4 /*yield*/, users_1.additems((_a = req) === null || _a === void 0 ? void 0 : _a.user, req.body)];
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, users_1.additems(req === null || req === void 0 ? void 0 : req.user, req.body)];
             case 1:
-                person = _c.sent();
-                return [2 /*return*/, ((_b = person) === null || _b === void 0 ? void 0 : _b.payload) ?
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
                         res.status(200).json(person) :
                         res.status(404).json(person)];
         }
@@ -197,13 +191,12 @@ router.post('/items', authenticate_1.default, function (req, res) { return __awa
 }); });
 router.post('/history', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0: return [4 /*yield*/, users_1.addhistory((_a = req) === null || _a === void 0 ? void 0 : _a.user, req.body)];
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, users_1.addhistory(req === null || req === void 0 ? void 0 : req.user, req.body)];
             case 1:
-                person = _c.sent();
-                return [2 /*return*/, ((_b = person) === null || _b === void 0 ? void 0 : _b.payload) ?
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
                         res.status(200).json(person) :
                         res.status(404).json(person)];
         }

@@ -120,7 +120,7 @@ exports.register = function (args) { return __awaiter(void 0, void 0, void 0, fu
                 return [4 /*yield*/, bcryptjs_1.default.hash(body.password, salt)];
             case 4:
                 hash = _b.sent();
-                pg_model_1.db.query(pg_model_1.sql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ")"], ["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ")"])), body.username, body.firstname, body.lastname, body.email, hash, body.phone, (_a = body.admin, (_a !== null && _a !== void 0 ? _a : true)), Created, Updated));
+                pg_model_1.db.query(pg_model_1.sql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ")"], ["Insert into Users values (uuid_generate_v4(),\n        ", ", ", ", ", ",\n        ", ",", ", ", ", ", ", \n        ", ",", ")"])), body.username, body.firstname, body.lastname, body.email, hash, body.phone, (_a = body.admin) !== null && _a !== void 0 ? _a : true, Created, Updated));
                 token = jsonwebtoken_1.default.sign({ token: body.email }, process.env.JWTTOKEN);
                 return [2 /*return*/, { token: token, admin: body.admin }
                     //after registering, send a mail to user, requesting approval
