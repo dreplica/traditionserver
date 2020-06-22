@@ -11,7 +11,7 @@ export const itemstype = async (token: string,params:Itemtype) => {
     if (!token) {
          return {error:"network error, please try again"}
     };
-    if(params['category']){
+    if(params.category){
         try {
             const {type,category} = params
             const items:ITEMS[] = await db.query(sql`Select * from items Where category =${category} And type=${type}`);
@@ -28,7 +28,7 @@ export const items = async (token: string) => {
         return {error:"network error, please try again"}
     }
     try {
-        const item:ITEMS[] = await db.query(sql`Select * From items`) 
+        const item:ITEMS[] = await db.query(sql`Select * From items limit 10`) 
         console.log(item);
         return {payload:item}
     } catch (error) {

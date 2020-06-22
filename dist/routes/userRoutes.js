@@ -39,12 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var authorize_1 = require("./../controllers/users/authorize");
 var express_1 = __importDefault(require("express"));
+var authorize_1 = require("./../controllers/users/authorize");
 var authenticate_1 = __importDefault(require("../authenticate/authenticate"));
 var users_1 = require("../controllers/users/users");
 var app_1 = require("../app");
-var authorize_2 = require("../controllers/users/authorize");
 var transaction_1 = require("../controllers/users/transaction");
 var items_1 = require("../controllers/users/items");
 var router = express_1.default.Router();
@@ -73,7 +72,7 @@ router.post('/signup', function (req, res) { return __awaiter(void 0, void 0, vo
             case 0:
                 console.log("enter");
                 console.log(req.body);
-                return [4 /*yield*/, authorize_2.register(req.body)];
+                return [4 /*yield*/, authorize_1.register(req.body)];
             case 1:
                 person = _a.sent();
                 console.log(person);

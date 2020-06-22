@@ -51,7 +51,7 @@ exports.itemstype = function (token, params) { return __awaiter(void 0, void 0, 
                     return [2 /*return*/, { error: "network error, please try again" }];
                 }
                 ;
-                if (!params['category']) return [3 /*break*/, 4];
+                if (!params.category) return [3 /*break*/, 4];
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -79,7 +79,7 @@ exports.items = function (token) { return __awaiter(void 0, void 0, void 0, func
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select * From items"], ["Select * From items"]))))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select * From items limit 10"], ["Select * From items limit 10"]))))];
             case 2:
                 item = _a.sent();
                 console.log(item);

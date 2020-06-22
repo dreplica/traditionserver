@@ -1,12 +1,12 @@
 import express,{Response,Request,NextFunction} from 'express';
 import createError, { HttpError } from 'http-errors';
 import cors from 'cors'
-import userControl from './routes/userRoutes'
-import adminControl from './routes/adminRoutes'
 import winston from 'winston';
-
 import expressWinston from 'express-winston';
 import multer from 'multer'
+
+import userControl from './routes/userRoutes'
+
 
 // the site is where people sell just traditional made things
 const storage = multer.diskStorage({
