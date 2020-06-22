@@ -40,9 +40,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var authorize_1 = require("./../controllers/users/authorize");
 var authenticate_1 = __importDefault(require("../authenticate/authenticate"));
 var users_1 = require("../controllers/users/users");
 var app_1 = require("../app");
+var transaction_1 = require("../controllers/users/transaction");
+var items_1 = require("../controllers/users/items");
 var router = express_1.default.Router();
 // the site is where people sell just traditional clothes
 router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -57,6 +60,38 @@ router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 person = _a.sent();
                 console.log("coming");
                 return [2 /*return*/, person.payload ?
+                        res.status(200).json(person) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
+router.post('/signup', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var person;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log("enter");
+                console.log(req.body);
+                return [4 /*yield*/, authorize_1.register(req.body)];
+            case 1:
+                person = _a.sent();
+                console.log(person);
+                return [2 /*return*/, person.token ?
+                        res.status(200).json(person) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
+router.post('/signin', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var person;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log("signing in");
+                return [4 /*yield*/, authorize_1.signin(req.body)];
+            case 1:
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.token) ?
                         res.status(200).json(person) :
                         res.status(404).json(person)];
         }
@@ -83,6 +118,91 @@ router.post('/upload', function (req, res) { return __awaiter(void 0, void 0, vo
 //         res.status(404).json(person)
 //  })
 // router.get('cart', cart)
+router.get('/history', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var person;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log("history loading ....");
+                return [4 /*yield*/, transaction_1.history(req === null || req === void 0 ? void 0 : req.user)];
+            case 1:
+                person = _a.sent();
+                return [2 /*return*/, person.payload ?
+                        res.status(200).json(person) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
+router.post('/history', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var person;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, transaction_1.addhistory(req === null || req === void 0 ? void 0 : req.user, req.body)];
+            case 1:
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
+                        res.status(200).json(person) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
+router.get('/items', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var person;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, items_1.items(req === null || req === void 0 ? void 0 : req.user)];
+            case 1:
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
+                        res.status(200).json(person === null || person === void 0 ? void 0 : person.payload) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
+router.get('/items/:id', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var person;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, users_1.getSearchItem(req === null || req === void 0 ? void 0 : req.user, req.params['id'])];
+            case 1:
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.search) ?
+                        res.status(200).json(person) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
+router.get('/items/:category/:type', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, category, type, token, person;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.params, category = _a.category, type = _a.type;
+                token = req.user;
+                return [4 /*yield*/, items_1.itemstype(token, { category: category, type: type })];
+            case 1:
+                person = _b.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
+                        res.status(200).json(person === null || person === void 0 ? void 0 : person.payload) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
+router.post('/items', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var person;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log(req.body);
+                return [4 /*yield*/, items_1.additems(req === null || req === void 0 ? void 0 : req.user, req.body)];
+            case 1:
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
+                        res.status(200).json(person) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
 router.get('/search/:id', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
     return __generator(this, function (_a) {
