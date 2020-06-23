@@ -75,23 +75,23 @@ router.post('/history', authenticate, async (req: (user & Request), res: Respons
         res.status(404).json(person)
 })
 
-router.get('/items', authenticate, async (req: (user & Request), res: Response) => {
-    const person = await items(req?.user as string)
+router.get('/items', async (req: (user & Request), res: Response) => {
+    const person = await items()
     return person?.payload ?
         res.status(200).json(person?.payload) :
         res.status(404).json(person)
 })
-router.get('/items/:id', authenticate, async (req: (user & Request), res: Response) => {
-    const person = await getSearchItem(req?.user as string, req.params['id'] as string)
+router.get('/items/:id', async (req: (user & Request), res: Response) => {
+    const person = await getSearchItem(req.params['id'] as string)
     return person?.search ?
         res.status(200).json(person) :
         res.status(404).json(person)
 })
-router.get('/items/:category/:type', authenticate, async (req: (user & Request), res: Response) => {
+router.get('/items/:category/:type', async (req: (user & Request), res: Response) => {
     const { category, type } = req.params
-    const token = req.user as string
+    // const token = req.user as string
 
-    const person = await itemstype(token, { category, type })
+    const person = await itemstype({ category, type })
 
     return person?.payload ?
         res.status(200).json(person?.payload) :
@@ -105,9 +105,9 @@ router.post('/items', authenticate, async (req: (user & Request), res: Response)
         res.status(200).json(person) :
         res.status(404).json(person)
 })
-router.get('/search/:id', authenticate, async (req: (user & Request), res: Response) => {
+router.get('/search/:id',async (req: (user & Request), res: Response) => {
     console.log("searching ....")
-    const person = await Search(req?.user as string, req.params['id'])
+    const person = await Search(req.params['id'])
     return person?.search ?
         res.status(200).json(person) :
         res.status(404).json(person)

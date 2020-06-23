@@ -27,10 +27,8 @@ export const home = async (token: string) => {
 //items table is the key here,
 //e suppose get everything from 
 
-export const getSearchItem = async (token: string,args:string) => {
-    if (!token) {
-        return {error:"network error, please try again"}
-    }
+export const getSearchItem = async (args:string) => {
+  
     try {
         const item = await db.query(sql`Select * from items where id=${args}`)
         console.log(item);
@@ -42,10 +40,8 @@ export const getSearchItem = async (token: string,args:string) => {
 }; 
 
 
-export const Search = async (token:string,args:string) =>{
-    if(!token){
-        return {error:'network error please try again'}
-    }
+export const Search = async (args:string) =>{
+   
     try {
         console.log(args)
         const search = await db.query(sql`select * from items where lower(itemname) like ${'%'+args+'%'}`)

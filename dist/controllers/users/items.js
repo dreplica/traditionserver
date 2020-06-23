@@ -41,16 +41,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var pg_model_1 = require("../../models/pg-model");
-exports.itemstype = function (token, params) { return __awaiter(void 0, void 0, void 0, function () {
+exports.itemstype = function (params) { return __awaiter(void 0, void 0, void 0, function () {
     var type, category, items_1, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log("entered");
-                if (!token) {
-                    return [2 /*return*/, { error: "network error, please try again" }];
-                }
-                ;
                 if (!params.category) return [3 /*break*/, 4];
                 _a.label = 1;
             case 1:
@@ -68,27 +63,22 @@ exports.itemstype = function (token, params) { return __awaiter(void 0, void 0, 
         }
     });
 }); };
-exports.items = function (token) { return __awaiter(void 0, void 0, void 0, function () {
+exports.items = function () { return __awaiter(void 0, void 0, void 0, function () {
     var item, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (!token) {
-                    return [2 /*return*/, { error: "network error, please try again" }];
-                }
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
+                _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select * From items limit 10"], ["Select * From items limit 10"]))))];
-            case 2:
+            case 1:
                 item = _a.sent();
                 console.log(item);
                 return [2 /*return*/, { payload: item }];
-            case 3:
+            case 2:
                 error_2 = _a.sent();
                 console.log(error_2.message);
                 return [2 /*return*/, { error: error_2.message }];
-            case 4: return [2 /*return*/];
+            case 3: return [2 /*return*/];
         }
     });
 }); };

@@ -66,51 +66,41 @@ exports.home = function (token) { return __awaiter(void 0, void 0, void 0, funct
 //and rerender itself on every search input
 //items table is the key here,
 //e suppose get everything from 
-exports.getSearchItem = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
+exports.getSearchItem = function (args) { return __awaiter(void 0, void 0, void 0, function () {
     var item, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (!token) {
-                    return [2 /*return*/, { error: "network error, please try again" }];
-                }
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
+                _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select * from items where id=", ""], ["Select * from items where id=", ""])), args))];
-            case 2:
+            case 1:
                 item = _a.sent();
                 console.log(item);
                 return [2 /*return*/, { search: item }];
-            case 3:
+            case 2:
                 error_1 = _a.sent();
                 console.log(error_1.message);
                 return [2 /*return*/, { error: error_1.message }];
-            case 4: return [2 /*return*/];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
-exports.Search = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
+exports.Search = function (args) { return __awaiter(void 0, void 0, void 0, function () {
     var search, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (!token) {
-                    return [2 /*return*/, { error: 'network error please try again' }];
-                }
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
+                _a.trys.push([0, 2, , 3]);
                 console.log(args);
                 return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["select * from items where lower(itemname) like ", ""], ["select * from items where lower(itemname) like ", ""])), '%' + args + '%'))];
-            case 2:
+            case 1:
                 search = _a.sent();
                 console.log(search);
                 return [2 /*return*/, { search: search }];
-            case 3:
+            case 2:
                 error_2 = _a.sent();
                 return [2 /*return*/, { error: error_2.message }];
-            case 4: return [2 /*return*/];
+            case 3: return [2 /*return*/];
         }
     });
 }); };

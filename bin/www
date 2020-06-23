@@ -17,10 +17,6 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 authenticate_db();
-<<<<<<< HEAD
-
-=======
->>>>>>> 2e3cf9387ab7f814eec387698bcbc1a01fb7b381
 /**
  * Create HTTP server.
  */

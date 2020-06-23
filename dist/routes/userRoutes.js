@@ -146,11 +146,11 @@ router.post('/history', authenticate_1.default, function (req, res) { return __a
         }
     });
 }); });
-router.get('/items', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/items', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, items_1.items(req === null || req === void 0 ? void 0 : req.user)];
+            case 0: return [4 /*yield*/, items_1.items()];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
@@ -159,11 +159,11 @@ router.get('/items', authenticate_1.default, function (req, res) { return __awai
         }
     });
 }); });
-router.get('/items/:id', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/items/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, users_1.getSearchItem(req === null || req === void 0 ? void 0 : req.user, req.params['id'])];
+            case 0: return [4 /*yield*/, users_1.getSearchItem(req.params['id'])];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.search) ?
@@ -172,14 +172,13 @@ router.get('/items/:id', authenticate_1.default, function (req, res) { return __
         }
     });
 }); });
-router.get('/items/:category/:type', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, category, type, token, person;
+router.get('/items/:category/:type', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, category, type, person;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.params, category = _a.category, type = _a.type;
-                token = req.user;
-                return [4 /*yield*/, items_1.itemstype(token, { category: category, type: type })];
+                return [4 /*yield*/, items_1.itemstype({ category: category, type: type })];
             case 1:
                 person = _b.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
@@ -203,13 +202,13 @@ router.post('/items', authenticate_1.default, function (req, res) { return __awa
         }
     });
 }); });
-router.get('/search/:id', authenticate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/search/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 console.log("searching ....");
-                return [4 /*yield*/, users_1.Search(req === null || req === void 0 ? void 0 : req.user, req.params['id'])];
+                return [4 /*yield*/, users_1.Search(req.params['id'])];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.search) ?

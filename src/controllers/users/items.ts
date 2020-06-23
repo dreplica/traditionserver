@@ -6,11 +6,8 @@ interface Itemtype {
     category:string;
 }
 
-export const itemstype = async (token: string,params:Itemtype) => {
-    console.log("entered")
-    if (!token) {
-         return {error:"network error, please try again"}
-    };
+export const itemstype = async (params:Itemtype) => {
+    
     if(params.category){
         try {
             const {type,category} = params
@@ -23,10 +20,8 @@ export const itemstype = async (token: string,params:Itemtype) => {
     }
 };
 
-export const items = async (token: string) => {
-    if (!token) {
-        return {error:"network error, please try again"}
-    }
+export const items = async () => {
+   
     try {
         const item:ITEMS[] = await db.query(sql`Select * From items limit 10`) 
         console.log(item);
