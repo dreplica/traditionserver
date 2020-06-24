@@ -62,7 +62,7 @@ exports.signin = function (body) { return __awaiter(void 0, void 0, void 0, func
                     return [2 /*return*/, { error: "did you mispell password or email?" }];
                 }
                 token = jsonwebtoken_1.default.sign({ token: body.email }, process.env.JWTTOKEN);
-                return [2 /*return*/, { token: token, admin: user.isadmin }];
+                return [2 /*return*/, { token: token, isadmin: user.isadmin }];
             case 3:
                 error_1 = _a.sent();
                 console.log("error");
@@ -103,7 +103,7 @@ exports.register = function (body) { return __awaiter(void 0, void 0, void 0, fu
                 _b.label = 6;
             case 6:
                 token = jsonwebtoken_1.default.sign({ token: body.email }, process.env.JWTTOKEN);
-                return [2 /*return*/, { token: token, admin: body.isadmin }
+                return [2 /*return*/, { token: token, isadmin: body.isadmin }
                     //after registering, send a mail to user, requesting approval
                 ];
             case 7:

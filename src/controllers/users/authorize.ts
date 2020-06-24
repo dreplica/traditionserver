@@ -15,7 +15,7 @@ export const signin = async (body: SIGNIN) => {
             return {error:"did you mispell password or email?"};
         }
         const token = jsonwebtoken.sign({ token: body.email }, process.env.JWTTOKEN as string)
-        return { token: token, admin: user.isadmin }
+        return { token: token, isadmin: user.isadmin }
         
     } catch (error) {
         console.log("error")
@@ -50,7 +50,7 @@ export const register = async (body: SIGNUP) => {
         }
 
         const token = jsonwebtoken.sign({ token: body.email }, process.env.JWTTOKEN as string)
-        return { token: token,admin:body.isadmin}
+        return { token: token,isadmin:body.isadmin}
         //after registering, send a mail to user, requesting approval
     } catch (error) {
         return {error:error.message}
