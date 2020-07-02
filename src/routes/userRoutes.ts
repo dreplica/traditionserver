@@ -83,14 +83,14 @@ router.get('/items', async (req: (user & Request), res: Response) => {
         res.status(404).json(person)
 })
 
-router.get('/items/:category', async (req:Request, res: Response) => {
+router.get('/items/category/:category', async (req:Request, res: Response) => {
     const person = await category(req.params.category)
     return person?.payload ?
         res.status(200).json(person?.payload) :
         res.status(404).json(person)
 })
 
-router.get('/items/:id', async (req: (user & Request), res: Response) => {
+router.get('/items/:id', async (req: Request, res: Response) => {
     const person = await getSearchItem(req.params['id'] as string)
     return person?.search ?
         res.status(200).json(person) :
