@@ -1,3 +1,4 @@
+import { category } from './../controllers/users/items';
 import express, { Response, Request } from 'express';
 
 import { signin, register } from './../controllers/users/authorize';
@@ -81,12 +82,21 @@ router.get('/items', async (req: (user & Request), res: Response) => {
         res.status(200).json(person?.payload) :
         res.status(404).json(person)
 })
+
+router.get('/items/:category', async (req:Request, res: Response) => {
+    const person = await category(req.params.category)
+    return person?.payload ?
+        res.status(200).json(person?.payload) :
+        res.status(404).json(person)
+})
+
 router.get('/items/:id', async (req: (user & Request), res: Response) => {
     const person = await getSearchItem(req.params['id'] as string)
     return person?.search ?
         res.status(200).json(person) :
         res.status(404).json(person)
 })
+
 router.get('/items/:category/:type', async (req: (user & Request), res: Response) => {
     const { category, type } = req.params
     // const token = req.user as string
@@ -105,6 +115,7 @@ router.post('/items', authenticate, async (req: (user & Request), res: Response)
         res.status(200).json(person) :
         res.status(404).json(person)
 })
+
 router.get('/search/:id',async (req: (user & Request), res: Response) => {
     console.log("searching ....")
     const person = await Search(req.params['id'])
