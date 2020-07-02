@@ -44,7 +44,7 @@ export const Search = async (args:string) =>{
    
     try {
         console.log(args)
-        const search = await db.query(sql`select * from items where lower(itemname) like ${'%'+args+'%'}`)
+        const search = await db.query(sql`SELECT id,itemname FROM items WHERE lower(itemname) LIKE ${'%'+args+'%'}`)
         console.log(search)
         return {search:search} 
         
