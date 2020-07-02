@@ -23,7 +23,7 @@ export const itemstype = async (params:Itemtype) => {
 export const items = async () => {
    
     try {
-        const item:ITEMS[] = await db.query(sql`Select * From items limit 10`) 
+        const item:ITEMS[] = await db.query(sql`Select * From items LIMIT 15 ORDER BY createdAt DESC`) 
         console.log(item);
         return {payload:item}
     } catch (error) {
