@@ -44,6 +44,9 @@ export const Search = async (args:string) =>{
    
     try {
         console.log(args)
+        if (!(/\w/.test(args))) {
+            throw Error("no search specified")
+        }
         const search = await db.query(sql`SELECT id,itemname FROM items WHERE lower(itemname) LIKE ${'%'+args+'%'}`)
         console.log(search)
         return {search:search} 

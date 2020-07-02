@@ -16,8 +16,7 @@ const router = express.Router();
 // the site is where people sell just traditional clothes
 
 router.get('/', async (req: (user & Request), res: Response) => {
-    console.log(__dirname)
-    res.sendFile(__dirname, 'userRoutes.ts')
+    
     const person: any = await home(req?.user as string)
     console.log("coming")
     return person.payload ?
