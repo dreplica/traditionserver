@@ -31,7 +31,7 @@ exports.up = pgm => {
             type: 'Text',
             notNull: false
         },
-        createdAt: {
+        createdat: {
             type: 'timestamp',
             notNull: true,
             default: pgm.func('current_timestamp')

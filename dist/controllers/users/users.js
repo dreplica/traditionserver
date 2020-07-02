@@ -92,7 +92,10 @@ exports.Search = function (args) { return __awaiter(void 0, void 0, void 0, func
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 console.log(args);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["select * from items where lower(itemname) like ", ""], ["select * from items where lower(itemname) like ", ""])), '%' + args + '%'))];
+                if (!(/\w/.test(args))) {
+                    throw Error("no search specified");
+                }
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["SELECT id,itemname FROM items WHERE lower(itemname) LIKE ", ""], ["SELECT id,itemname FROM items WHERE lower(itemname) LIKE ", ""])), '%' + args + '%'))];
             case 1:
                 search = _a.sent();
                 console.log(search);

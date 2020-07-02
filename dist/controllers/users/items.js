@@ -42,7 +42,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var pg_model_1 = require("../../models/pg-model");
 exports.itemstype = function (params) { return __awaiter(void 0, void 0, void 0, function () {
-    var type, category, items_1, error_1;
+    var type, category_1, items_1, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -50,8 +50,8 @@ exports.itemstype = function (params) { return __awaiter(void 0, void 0, void 0,
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                type = params.type, category = params.category;
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select * from items Where category =", " And type=", ""], ["Select * from items Where category =", " And type=", ""])), category, type))];
+                type = params.type, category_1 = params.category;
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select * from items Where category =", " And type=", ""], ["Select * from items Where category =", " And type=", ""])), category_1, type))];
             case 2:
                 items_1 = _a.sent();
                 console.log(items_1);
@@ -63,50 +63,68 @@ exports.itemstype = function (params) { return __awaiter(void 0, void 0, void 0,
         }
     });
 }); };
-exports.items = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var item, error_2;
+exports.category = function (params) { return __awaiter(void 0, void 0, void 0, function () {
+    var cate, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select * From items limit 10"], ["Select * From items limit 10"]))))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select * from items Where \n            lower(category) LIKE ", " \n            ORDER BY createdAt ASC LIMIT 10 "], ["Select * from items Where \n            lower(category) LIKE ", " \n            ORDER BY createdAt ASC LIMIT 10 "])), '%' + params + '%'))];
             case 1:
-                item = _a.sent();
-                console.log(item);
-                return [2 /*return*/, { payload: item }];
+                cate = _a.sent();
+                console.log(exports.items);
+                return [2 /*return*/, { payload: exports.items }];
             case 2:
                 error_2 = _a.sent();
-                console.log(error_2.message);
                 return [2 /*return*/, { error: error_2.message }];
             case 3: return [2 /*return*/];
         }
     });
 }); };
+exports.items = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var item, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select * From items ORDER BY createdat ASC LIMIT 30"], ["Select * From items ORDER BY createdat ASC LIMIT 30"]))))];
+            case 1:
+                item = _a.sent();
+                console.log(item);
+                return [2 /*return*/, { payload: item }];
+            case 2:
+                error_3 = _a.sent();
+                console.log(error_3.message);
+                return [2 /*return*/, { error: error_3.message }];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.additems = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
-    var now, userId, item, error_3;
+    var now, userId, item, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 if (!token) {
-                    return [2 /*return*/, { error: "network error, please try again" }];
+                    return [2 /*return*/, { error: 'network error, please try again' }];
                 }
                 now = new Date().toISOString();
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 4, , 5]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select id from users where email=", ""], ["Select id from users where email=", ""])), token))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Select id from users where email=", ""], ["Select id from users where email=", ""])), token))];
             case 2:
                 userId = _a.sent();
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",\n            ", ",", ") returning *"])), args.itemname, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image, now, now))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",current_timestamp(),current_timestamp()), returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",current_timestamp(),current_timestamp()), returning *"])), args.itemname, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image))];
             case 3:
                 item = _a.sent();
                 return [2 /*return*/, { payload: item }];
             case 4:
-                error_3 = _a.sent();
-                console.log(error_3.message);
-                return [2 /*return*/, { error: error_3.message }];
+                error_4 = _a.sent();
+                console.log(error_4.message);
+                return [2 /*return*/, { error: error_4.message }];
             case 5: return [2 /*return*/];
         }
     });
 }); };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;

@@ -25,7 +25,7 @@ export const category = async (params: string) => {
 	try {
 		const cate: ITEMS[] = await db.query(sql`Select * from items Where 
             lower(category) LIKE ${'%' + params + '%'} 
-            LIMIT 10 ORDER BY createdAt ASC`);
+            ORDER BY createdAt ASC LIMIT 10 `);
 		console.log(items);
 		return { payload: items };
 	} catch (error) {
@@ -35,7 +35,7 @@ export const category = async (params: string) => {
 
 export const items = async () => {
 	try {
-		const item: ITEMS[] = await db.query(sql`Select * From items LIMIT 30 ORDER BY createdAt ASC`);
+		const item: ITEMS[] = await db.query(sql`Select * From items ORDER BY createdat ASC LIMIT 30`);
 		console.log(item);
 		return { payload: item };
 	} catch (error) {
@@ -54,8 +54,7 @@ export const additems = async (token: string, args: ITEMS) => {
 
 		const item = await db.query(sql`Insert Into items Values (uuid_generate_v4(),
             ${args.itemname},${args.type},${args.category},${args.price},${args.description},
-            ${args.quantity},${userId[0].id},${args.image},
-            ${now},${now}) returning *`);
+            ${args.quantity},${userId[0].id},${args.image},current_timestamp(),current_timestamp()), returning *`);
 
 		return { payload: item };
 	} catch (error) {

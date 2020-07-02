@@ -39,23 +39,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var items_1 = require("./../controllers/users/items");
 var express_1 = __importDefault(require("express"));
 var authorize_1 = require("./../controllers/users/authorize");
 var authenticate_1 = __importDefault(require("../authenticate/authenticate"));
 var users_1 = require("../controllers/users/users");
 var app_1 = require("../app");
 var transaction_1 = require("../controllers/users/transaction");
-var items_1 = require("../controllers/users/items");
+var items_2 = require("../controllers/users/items");
 var router = express_1.default.Router();
 // the site is where people sell just traditional clothes
 router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var person;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                console.log(__dirname);
-                res.sendFile(__dirname, 'userRoutes.ts');
-                return [4 /*yield*/, users_1.home(req === null || req === void 0 ? void 0 : req.user)];
+            case 0: return [4 /*yield*/, users_1.home(req === null || req === void 0 ? void 0 : req.user)];
             case 1:
                 person = _a.sent();
                 console.log("coming");
@@ -150,7 +148,20 @@ router.get('/items', function (req, res) { return __awaiter(void 0, void 0, void
     var person;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, items_1.items()];
+            case 0: return [4 /*yield*/, items_2.items()];
+            case 1:
+                person = _a.sent();
+                return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
+                        res.status(200).json(person === null || person === void 0 ? void 0 : person.payload) :
+                        res.status(404).json(person)];
+        }
+    });
+}); });
+router.get('/items/:category', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var person;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, items_1.category(req.params.category)];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
@@ -178,7 +189,7 @@ router.get('/items/:category/:type', function (req, res) { return __awaiter(void
         switch (_b.label) {
             case 0:
                 _a = req.params, category = _a.category, type = _a.type;
-                return [4 /*yield*/, items_1.itemstype({ category: category, type: type })];
+                return [4 /*yield*/, items_2.itemstype({ category: category, type: type })];
             case 1:
                 person = _b.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
@@ -193,7 +204,7 @@ router.post('/items', authenticate_1.default, function (req, res) { return __awa
         switch (_a.label) {
             case 0:
                 console.log(req.body);
-                return [4 /*yield*/, items_1.additems(req === null || req === void 0 ? void 0 : req.user, req.body)];
+                return [4 /*yield*/, items_2.additems(req === null || req === void 0 ? void 0 : req.user, req.body)];
             case 1:
                 person = _a.sent();
                 return [2 /*return*/, (person === null || person === void 0 ? void 0 : person.payload) ?
