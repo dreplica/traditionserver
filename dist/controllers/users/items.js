@@ -69,11 +69,11 @@ exports.category = function (params) { return __awaiter(void 0, void 0, void 0, 
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select * from items Where \n            lower(category) LIKE ", " \n            ORDER BY createdAt ASC LIMIT 10 "], ["Select * from items Where \n            lower(category) LIKE ", " \n            ORDER BY createdAt ASC LIMIT 10 "])), '%' + params + '%'))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select * from items Where \n            lower(category) LIKE ", " \n            ORDER BY createdat DESC LIMIT 10 "], ["Select * from items Where \n            lower(category) LIKE ", " \n            ORDER BY createdat DESC LIMIT 10 "])), '%' + params + '%'))];
             case 1:
                 cate = _a.sent();
                 console.log(exports.items);
-                return [2 /*return*/, { payload: exports.items }];
+                return [2 /*return*/, { payload: cate }];
             case 2:
                 error_2 = _a.sent();
                 return [2 /*return*/, { error: error_2.message }];
@@ -87,7 +87,7 @@ exports.items = function () { return __awaiter(void 0, void 0, void 0, function 
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select * From items ORDER BY createdat ASC LIMIT 30"], ["Select * From items ORDER BY createdat ASC LIMIT 30"]))))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select * From items ORDER BY createdat DESC LIMIT 30"], ["Select * From items ORDER BY createdat DESC LIMIT 30"]))))];
             case 1:
                 item = _a.sent();
                 console.log(item);
@@ -101,21 +101,20 @@ exports.items = function () { return __awaiter(void 0, void 0, void 0, function 
     });
 }); };
 exports.additems = function (token, args) { return __awaiter(void 0, void 0, void 0, function () {
-    var now, userId, item, error_4;
+    var userId, item, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 if (!token) {
                     return [2 /*return*/, { error: 'network error, please try again' }];
                 }
-                now = new Date().toISOString();
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 4, , 5]);
                 return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Select id from users where email=", ""], ["Select id from users where email=", ""])), token))];
             case 2:
                 userId = _a.sent();
-                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",current_timestamp(),current_timestamp()), returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",current_timestamp(),current_timestamp()), returning *"])), args.itemname, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image))];
+                return [4 /*yield*/, pg_model_1.db.query(pg_model_1.sql(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",current_timestamp,current_timestamp) returning *"], ["Insert Into items Values (uuid_generate_v4(),\n            ", ",", ",", ",", ",", ",\n            ", ",", ",", ",current_timestamp,current_timestamp) returning *"])), args.itemname, args.type, args.category, args.price, args.description, args.quantity, userId[0].id, args.image))];
             case 3:
                 item = _a.sent();
                 return [2 /*return*/, { payload: item }];
